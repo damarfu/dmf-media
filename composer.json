@@ -1,0 +1,10 @@
+{
+    "name": "dmf/media",
+    "description": "WordPress Media Plugin",
+    "type": "wordpress-plugin",
+    "autoload": {
+        "psr-4": {
+            "DMF\\Media\\": "src/"
+        }
+    }
+}
