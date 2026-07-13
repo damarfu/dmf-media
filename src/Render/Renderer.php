@@ -4,24 +4,33 @@ declare(strict_types=1);
 
 namespace DMF\Media\Render;
 
+use DMF\Media\Feed\YoutubeFeed;
+
 defined( 'ABSPATH' ) || exit;
 
 final class Renderer {
 
 	public function render(): string {
 
+		$feed = new YoutubeFeed(
+			'UCfoi0nD0pW_ipZOldgTrp4A'
+		);
+
+		$xml = $feed->fetch();
+
 		ob_start();
-		?>
 
-		<div class="dmf-media">
+		if ( ! $xml ) {
 
-			<h3>DMF Media funciona 🚀</h3>
+			echo '<p>No se ha podido leer el feed.</p>';
 
-			<p>La nueva arquitectura está correctamente cargada.</p>
+		} else {
 
-		</div>
+			echo '<h3>Feed leído correctamente ✅</h3>';
+			echo '<p>Título del canal: ' . esc_html( (string) $xml->title ) . '</p>';
+			echo '<p>Entradas encontradas: ' . count( $xml->entry ) . '</p>';
 
-		<?php
+		}
 
 		return (string) ob_get_clean();
 
