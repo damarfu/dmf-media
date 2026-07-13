@@ -16,21 +16,43 @@ final class Renderer {
 			'UCfoi0nD0pW_ipZOldgTrp4A'
 		);
 
-		$xml = $feed->fetch();
+		$videos = $feed->getVideos();
 
 		ob_start();
 
-		if ( ! $xml ) {
+		if ( empty( $videos ) ) {
 
-			echo '<p>No se ha podido leer el feed.</p>';
+			echo '<p>No se encontraron vídeos.</p>';
 
-		} else {
-
-			echo '<h3>Feed leído correctamente ✅</h3>';
-			echo '<p>Título del canal: ' . esc_html( (string) $xml->title ) . '</p>';
-			echo '<p>Entradas encontradas: ' . count( $xml->entry ) . '</p>';
+			return (string) ob_get_clean();
 
 		}
+
+		echo '<div class="dmf-media">';
+
+		foreach ( $videos as $video ) {
+
+			?>
+
+			<article class="dmf-video">
+
+				<h3><?php echo esc_html( $video->title ); ?></h3>
+
+				<p>
+					<?php
+					echo esc_html(
+						$video->publishedAt->format( 'd/m/Y' )
+					);
+					?>
+				</p>
+
+			</article>
+
+			<?php
+
+		}
+
+		echo '</div>';
 
 		return (string) ob_get_clean();
 
