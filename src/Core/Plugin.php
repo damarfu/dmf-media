@@ -1,26 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DMF\Media\Core;
+
+use DMF\Media\Shortcodes\MediaShortcode;
 
 defined( 'ABSPATH' ) || exit;
 
-class Plugin {
+final class Plugin {
 
-	/**
-	 * Arranque del plugin.
-	 */
 	public static function boot(): void {
 
-		add_action( 'init', [ self::class, 'init' ] );
+		add_action(
+			'init',
+			static function () {
 
-	}
+				$shortcode = new MediaShortcode();
+				$shortcode->register();
 
-	/**
-	 * Inicialización.
-	 */
-	public static function init(): void {
-
-		// De momento no hacemos nada.
+			}
+		);
 
 	}
 
