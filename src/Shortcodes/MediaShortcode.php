@@ -19,11 +19,20 @@ final class MediaShortcode {
 
 	}
 
-	public function render(): string {
+	public function render( array $atts = [] ): string {
+
+		$atts = shortcode_atts(
+			[
+				'channel' => '',
+				'limit'   => '',
+			],
+			$atts,
+			'dmf_media'
+		);
 
 		$renderer = new Renderer();
 
-		return $renderer->render();
+		return $renderer->render( $atts );
 
 	}
 

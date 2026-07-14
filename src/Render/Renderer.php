@@ -11,13 +11,17 @@ defined( 'ABSPATH' ) || exit;
 
 final class Renderer {
 
-	public function render(): string {
+	public function render( array $atts = [] ): string {
 
 		$options = get_option( 'dmf_media_settings', [] );
 
-		$channel = $options['channel'] ?? 'UCfoi0nD0pW_ipZOldgTrp4A';
+		$channel = ! empty( $atts['channel'] )
+			? trim( (string) $atts['channel'] )
+			: ( $options['channel'] ?? 'UCfoi0nD0pW_ipZOldgTrp4A' );
 
-		$limit = (int) ( $options['limit'] ?? 6 );
+		$limit = ! empty( $atts['limit'] )
+			? (int) $atts['limit']
+			: (int) ( $options['limit'] ?? 6 );
 
 		$feed = new YoutubeFeed( $channel );
 
@@ -27,10 +31,13 @@ final class Renderer {
 
 		if ( empty( $videos ) ) {
 			?>
+
 			<p>No se encontraron vídeos.</p>
+
 			<?php
 
 			return (string) ob_get_clean();
+
 		}
 
 		?>
@@ -51,12 +58,10 @@ final class Renderer {
 
 	}
 
-	/**
-	 * Renderiza una tarjeta de vídeo.
-	 */
 	private function renderCard( Video $video ): string {
 
 		ob_start();
+
 		?>
 
 		<article class="dmf-video-card">
@@ -94,7 +99,9 @@ final class Renderer {
 
 				<p class="dmf-video-date">
 
-					<?php echo esc_html( $video->publishedAt->format( 'd/m/Y' ) ); ?>
+					<?php echo esc_html(
+						$video->publishedAt->format( 'd/m/Y' )
+					); ?>
 
 				</p>
 
