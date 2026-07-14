@@ -35,6 +35,37 @@ final class YoutubeFeed {
 	 */
 	public function getVideos( int $limit = 6 ): array {
 
+		$cacheKey = 'dmf_media_feed_' . md5( $this->channelId );
+
+		$videos = get_transient( $cacheKey );
+
+		if ( false === $videos ) {
+
+			$videos = $this->downloadVideos();
+
+			set_transient(
+				$cacheKey,
+				$videos,
+				30 * MINUTE_IN_SECONDS
+			);
+
+		}
+
+		return array_slice(
+			$videos,
+			0,
+			$limit
+		);
+
+	}
+
+	/**
+	 * Descarga el RSS y crea los objetos Video.
+	 *
+	 * @return Video[]
+	 */
+	private function downloadVideos(): array {
+
 		$response = wp_remote_get(
 			$this->getFeedUrl(),
 			[
@@ -66,7 +97,9 @@ final class YoutubeFeed {
 
 		foreach ( $xml->entry as $entry ) {
 
-			$mediaGroup = $entry->children( $media['media'] )->group;
+			$mediaGroup = $entry->children(
+				$media['media']
+			)->group;
 
 			$videos[] = new Video(
 				title: (string) $entry->title,
@@ -80,7 +113,7 @@ final class YoutubeFeed {
 
 		}
 
-		return array_slice( $videos, 0, $limit );
+		return $videos;
 
 	}
 
