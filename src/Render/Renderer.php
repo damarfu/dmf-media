@@ -13,11 +13,15 @@ final class Renderer {
 
 	public function render(): string {
 
-		$feed = new YoutubeFeed(
-			'UCfoi0nD0pW_ipZOldgTrp4A'
-		);
+		$options = get_option( 'dmf_media_settings', [] );
 
-		$videos = $feed->getVideos();
+		$channel = $options['channel'] ?? 'UCfoi0nD0pW_ipZOldgTrp4A';
+
+		$limit = (int) ( $options['limit'] ?? 6 );
+
+		$feed = new YoutubeFeed( $channel );
+
+		$videos = $feed->getVideos( $limit );
 
 		ob_start();
 
@@ -30,6 +34,7 @@ final class Renderer {
 		}
 
 		?>
+
 		<div class="dmf-media-grid">
 
 			<?php foreach ( $videos as $video ) : ?>
@@ -39,6 +44,7 @@ final class Renderer {
 			<?php endforeach; ?>
 
 		</div>
+
 		<?php
 
 		return (string) ob_get_clean();

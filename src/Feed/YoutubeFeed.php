@@ -33,7 +33,7 @@ final class YoutubeFeed {
 	 *
 	 * @return Video[]
 	 */
-	public function getVideos(): array {
+	public function getVideos( int $limit = 6 ): array {
 
 		$response = wp_remote_get(
 			$this->getFeedUrl(),
@@ -80,7 +80,7 @@ final class YoutubeFeed {
 
 		}
 
-		return $videos;
+		return array_slice( $videos, 0, $limit );
 
 	}
 
