@@ -11,11 +11,33 @@ defined( 'ABSPATH' ) || exit;
 
 final class YoutubeFeed {
 
+	/**
+	 * Tiempo de caché en segundos (30 minutos).
+	 */
+	private const CACHE_TTL = 1800;
+
 	private string $channelId;
 
 	public function __construct( string $channelId ) {
 
 		$this->channelId = trim( $channelId );
+
+	}
+
+	/**
+	 * @return Video[]
+	 */
+	public function getVideos( int $limit = 6 ): array {
+
+		$xml = $this->getFeedXml();
+
+		if ( '' === $xml ) {
+			return [];
+		}
+
+		$videos = $this->parseVideos( $xml );
+
+		return array_slice( $videos, 0, $limit );
 
 	}
 
@@ -28,43 +50,21 @@ final class YoutubeFeed {
 
 	}
 
-	/**
-	 * Obtiene los vídeos del canal.
-	 *
-	 * @return Video[]
-	 */
-	public function getVideos( int $limit = 6 ): array {
+	private function getCacheKey(): string {
 
-		$cacheKey = 'dmf_media_feed_' . md5( $this->channelId );
-
-		$videos = get_transient( $cacheKey );
-
-		if ( false === $videos ) {
-
-			$videos = $this->downloadVideos();
-
-			set_transient(
-				$cacheKey,
-				$videos,
-				30 * MINUTE_IN_SECONDS
-			);
-
-		}
-
-		return array_slice(
-			$videos,
-			0,
-			$limit
-		);
+		return 'dmf_media_feed_v2_' . md5( $this->channelId );
 
 	}
 
-	/**
-	 * Descarga el RSS y crea los objetos Video.
-	 *
-	 * @return Video[]
-	 */
-	private function downloadVideos(): array {
+	private function getFeedXml(): string {
+
+		$cacheKey = $this->getCacheKey();
+
+		$xml = get_transient( $cacheKey );
+
+		if ( is_string( $xml ) && '' !== $xml ) {
+    		return $xml;
+		}
 
 		$response = wp_remote_get(
 			$this->getFeedUrl(),
@@ -74,18 +74,35 @@ final class YoutubeFeed {
 		);
 
 		if ( is_wp_error( $response ) ) {
-			return [];
+			return '';
 		}
 
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( empty( $body ) ) {
-			return [];
+			return '';
 		}
+
+		set_transient(
+			$cacheKey,
+			$body,
+			self::CACHE_TTL
+		);
+
+		return $body;
+
+	}
+
+	/**
+	 * Convierte el XML en objetos Video.
+	 *
+	 * @return Video[]
+	 */
+	private function parseVideos( string $xmlString ): array {
 
 		libxml_use_internal_errors( true );
 
-		$xml = simplexml_load_string( $body );
+		$xml = simplexml_load_string( $xmlString );
 
 		if ( ! $xml ) {
 			return [];
