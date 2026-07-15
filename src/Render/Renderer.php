@@ -4,28 +4,16 @@ declare(strict_types=1);
 
 namespace DMF\Media\Render;
 
-use DMF\Media\Feed\YoutubeFeed;
 use DMF\Media\Models\Video;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Renderer {
 
-	public function render( array $atts = [] ): string {
-
-		$options = get_option( 'dmf_media_settings', [] );
-
-		$channel = ! empty( $atts['channel'] )
-			? trim( (string) $atts['channel'] )
-			: ( $options['channel'] ?? 'UCfoi0nD0pW_ipZOldgTrp4A' );
-
-		$limit = ! empty( $atts['limit'] )
-			? (int) $atts['limit']
-			: (int) ( $options['limit'] ?? 6 );
-
-		$feed = new YoutubeFeed( $channel );
-
-		$videos = $feed->getVideos( $limit );
+	/**
+	 * @param Video[] $videos
+	 */
+	public function render( array $videos ): string {
 
 		ob_start();
 
@@ -37,7 +25,6 @@ final class Renderer {
 			<?php
 
 			return (string) ob_get_clean();
-
 		}
 
 		?>
