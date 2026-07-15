@@ -41,6 +41,9 @@ final class MediaShortcode {
 			? (int) $atts['limit']
 			: (int) ( $options['limit'] ?? 6 );
 
+		// Validar límite
+		$limit = max( 1, min( 20, $limit ) );
+
 		if ( empty( $channel ) ) {
 			return '<p>Debes configurar un canal de YouTube en Ajustes → DMF Media.</p>';
 		}
