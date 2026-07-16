@@ -27,9 +27,13 @@ final class Renderer {
 			return (string) ob_get_clean();
 		}
 
+		$wrapperClass = count( $videos ) === 1
+			? 'dmf-media-single'
+			: 'dmf-media-grid';
+
 		?>
 
-		<div class="dmf-media-grid">
+		<div class="<?php echo esc_attr( $wrapperClass ); ?>">
 
 			<?php foreach ( $videos as $video ) : ?>
 
@@ -97,7 +101,16 @@ final class Renderer {
 
 						<div class="dmf-video-play">
 
-							▶
+							<svg
+								viewBox="0 0 24 24"
+								aria-hidden="true"
+								focusable="false">
+
+								<path
+									d="M8 5v14l11-7z"
+									fill="currentColor" />
+
+							</svg>
 
 						</div>
 

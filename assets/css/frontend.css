@@ -2,10 +2,21 @@
  * DMF Media Frontend
  */
 
-.dmf-media-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-	gap: 1.5rem;
+.dmf-media-single{
+
+	width:100%;
+
+}
+
+.dmf-media-grid{
+
+	display:grid;
+
+	grid-template-columns:
+		repeat(auto-fit,minmax(320px,1fr));
+
+	gap:1.5rem;
+
 }
 
 .dmf-video-card {
@@ -31,10 +42,17 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+    transition: 
+        transform .35s ease,
+		filter .35s ease;
+}
+.dmf-video-link:hover img{
+
+	transform: scale(1.04);
+
 }
 
 .dmf-video-overlay {
-
 	position: absolute;
 	inset: 0;
 
@@ -43,6 +61,7 @@
 	justify-content: space-between;
 
 	padding: 1rem;
+    transition: background .35s ease;
 
 	background: linear-gradient(
 		to top,
@@ -52,46 +71,54 @@
 	);
 
 }
+.dmf-video-link:hover .dmf-video-overlay{
+
+	background: linear-gradient(
+		to top,
+		rgba(0,0,0,.92),
+		rgba(0,0,0,.30),
+		transparent
+	);
+
+}
 
 .dmf-video-play {
-
-	align-self: center;
-
-	width: 70px;
-	height: 70px;
-
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 56px;
+	height: 56px;
 	border-radius: 50%;
-
-	background: rgba(255,255,255,.90);
-
-	color: #000;
-
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
-	font-size: 2rem;
-
-	transition: transform .25s ease;
-
+	background: rgba(255,255,255,.22);
+	backdrop-filter: blur(6px);
+	border: 1px solid rgba(255,255,255,.45);
+	color: #fff;
+	font-size: 1.4rem;
+	transition: all .25s ease;
 }
 
+.dmf-video-play svg{
+	width:24px;
+	height:24px;
+	display:block;
+}
 .dmf-video-link:hover .dmf-video-play {
-
-	transform: scale(1.08);
-
+	transform:
+		translate(-50%, -50%)
+		scale(1.08);
+	background: rgba(255,255,255,.30);
+	border-color: rgba(255,255,255,.65);
 }
 
 .dmf-video-title {
-
 	margin: 0;
-
 	color: #fff;
-
 	font-size: 1rem;
-
 	line-height: 1.35;
-
 }
 
 /* ===========================
@@ -99,35 +126,22 @@
 =========================== */
 
 .dmf-video-modal {
-
 	position: fixed;
-
 	inset: 0;
-
 	z-index: 99999;
-
 	display: flex;
-
 	align-items: center;
-
 	justify-content: center;
-
 }
 
 .dmf-video-modal[hidden] {
-
 	display: none;
-
 }
 
 .dmf-video-modal__overlay {
-
 	position: absolute;
-
 	inset: 0;
-
 	background: rgba(0,0,0,.85);
-
 }
 
 .dmf-video-modal__dialog {
@@ -136,78 +150,77 @@
 
 	z-index: 2;
 
-	width: min(1100px,90vw);
+	width: min(1100px, 90vw);
 
-	aspect-ratio:16/9;
+	aspect-ratio: 16 / 9;
 
-	background:#000;
+	background: #000;
 
-	border-radius:12px;
+	border-radius: 12px;
 
-	overflow:hidden;
+	overflow: visible;
 
-	box-shadow:0 20px 80px rgba(0,0,0,.45);
+	box-shadow: 0 20px 80px rgba(0,0,0,.45);
 
 }
 
 .dmf-video-player {
-
 	width:100%;
-
 	height:100%;
-
 }
 
 .dmf-video-player iframe {
-
 	width:100%;
-
 	height:100%;
-
 	border:0;
-
 }
 
 .dmf-video-modal__close {
 
-	position:absolute;
+	position: absolute;
 
-	top:12px;
+	top: -38px;
 
-	right:12px;
+	right: 0;
 
-	z-index:3;
+	padding: 0;
 
-	width:42px;
+	margin: 0;
 
-	height:42px;
+	background: transparent;
 
-	border:none;
+	border: none;
 
-	border-radius:50%;
+	color: #fff;
 
-	background:rgba(255,255,255,.92);
+	font-size: 2rem;
 
-	cursor:pointer;
+	font-weight: 700;
 
-	font-size:1.5rem;
+	line-height: 1;
 
-	line-height:1;
+	cursor: pointer;
+
+	transition: opacity .2s ease,
+				transform .2s ease;
+
+}
+
+.dmf-video-modal__close:hover {
+
+	opacity: .75;
+
+	transform: scale(1.1);
 
 }
 
 body.dmf-modal-open {
-
 	overflow:hidden;
-
 }
 
 @media (max-width:768px){
-
 	.dmf-video-modal__dialog{
-
 		width:95vw;
-
 	}
 
 }
