@@ -34,6 +34,36 @@ final class Plugin {
 			[ $settings, 'registerSettings' ]
 		);
 
+		add_action(
+			'wp_enqueue_scripts',
+			[ self::class, 'enqueueAssets' ]
+		);
+
+	}
+
+	public static function enqueueAssets(): void {
+
+		wp_enqueue_style(
+			'dmf-media',
+			plugins_url(
+				'assets/css/frontend.css',
+				dirname( __DIR__, 2 ) . '/dmf-media.php'
+			),
+			[],
+			'0.1.0'
+		);
+
+		wp_enqueue_script(
+			'dmf-media',
+			plugins_url(
+				'assets/js/frontend.js',
+				dirname( __DIR__, 2 ) . '/dmf-media.php'
+			),
+			[],
+			'0.1.0',
+			true
+		);
+
 	}
 
 }
