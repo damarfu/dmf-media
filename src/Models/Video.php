@@ -16,6 +16,7 @@ final class Video {
 
 	public function __construct(
 		public readonly string $title,
+		public readonly string $videoId,
 		public readonly string $url,
 		public readonly string $thumbnail,
 		public readonly DateTimeImmutable $publishedAt,
@@ -24,6 +25,10 @@ final class Video {
 
 		if ( trim( $this->title ) === '' ) {
 			throw new InvalidArgumentException( 'Video title cannot be empty.' );
+		}
+
+		if ( trim( $this->videoId ) === '' ) {
+			throw new InvalidArgumentException( 'Video ID cannot be empty.' );
 		}
 
 		if ( filter_var( $this->url, FILTER_VALIDATE_URL ) === false ) {

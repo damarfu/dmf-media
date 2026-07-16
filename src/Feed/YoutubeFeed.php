@@ -11,9 +11,6 @@ defined( 'ABSPATH' ) || exit;
 
 final class YoutubeFeed {
 
-	/**
-	 * Tiempo de caché en segundos (30 minutos).
-	 */
 	private const CACHE_TTL = 1800;
 
 	private string $channelId;
@@ -63,7 +60,7 @@ final class YoutubeFeed {
 		$xml = get_transient( $cacheKey );
 
 		if ( is_string( $xml ) && '' !== $xml ) {
-    		return $xml;
+			return $xml;
 		}
 
 		$response = wp_remote_get(
@@ -94,8 +91,6 @@ final class YoutubeFeed {
 	}
 
 	/**
-	 * Convierte el XML en objetos Video.
-	 *
 	 * @return Video[]
 	 */
 	private function parseVideos( string $xmlString ): array {
@@ -108,18 +103,23 @@ final class YoutubeFeed {
 			return [];
 		}
 
-		$media = $xml->getNamespaces( true );
+		$namespaces = $xml->getNamespaces( true );
 
 		$videos = [];
 
 		foreach ( $xml->entry as $entry ) {
 
-			$mediaGroup = $entry->children(
-				$media['media']
-			)->group;
+			$mediaGroup = $entry
+				->children( $namespaces['media'] )
+				->group;
+
+			$youtube = $entry->children(
+				$namespaces['yt']
+			);
 
 			$videos[] = new Video(
 				title: (string) $entry->title,
+				videoId: (string) $youtube->videoId,
 				url: (string) $entry->link['href'],
 				thumbnail: (string) $mediaGroup->thumbnail->attributes()->url,
 				publishedAt: new DateTimeImmutable(
