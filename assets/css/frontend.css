@@ -1,5 +1,213 @@
-/* DMF Media Frontend */
+/*
+ * DMF Media Frontend
+ */
 
-.dmf-video-card{
-	outline:3px solid red;
+.dmf-media-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	gap: 1.5rem;
+}
+
+.dmf-video-card {
+	position: relative;
+	overflow: hidden;
+	border-radius: 12px;
+	background: #000;
+}
+
+.dmf-video-link {
+	display: block;
+	color: inherit;
+	text-decoration: none;
+}
+
+.dmf-video-thumb {
+	position: relative;
+	aspect-ratio: 16 / 9;
+}
+
+.dmf-video-thumb img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.dmf-video-overlay {
+
+	position: absolute;
+	inset: 0;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	padding: 1rem;
+
+	background: linear-gradient(
+		to top,
+		rgba(0,0,0,.85),
+		rgba(0,0,0,.15),
+		transparent
+	);
+
+}
+
+.dmf-video-play {
+
+	align-self: center;
+
+	width: 70px;
+	height: 70px;
+
+	border-radius: 50%;
+
+	background: rgba(255,255,255,.90);
+
+	color: #000;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 2rem;
+
+	transition: transform .25s ease;
+
+}
+
+.dmf-video-link:hover .dmf-video-play {
+
+	transform: scale(1.08);
+
+}
+
+.dmf-video-title {
+
+	margin: 0;
+
+	color: #fff;
+
+	font-size: 1rem;
+
+	line-height: 1.35;
+
+}
+
+/* ===========================
+   MODAL
+=========================== */
+
+.dmf-video-modal {
+
+	position: fixed;
+
+	inset: 0;
+
+	z-index: 99999;
+
+	display: flex;
+
+	align-items: center;
+
+	justify-content: center;
+
+}
+
+.dmf-video-modal[hidden] {
+
+	display: none;
+
+}
+
+.dmf-video-modal__overlay {
+
+	position: absolute;
+
+	inset: 0;
+
+	background: rgba(0,0,0,.85);
+
+}
+
+.dmf-video-modal__dialog {
+
+	position: relative;
+
+	z-index: 2;
+
+	width: min(1100px,90vw);
+
+	aspect-ratio:16/9;
+
+	background:#000;
+
+	border-radius:12px;
+
+	overflow:hidden;
+
+	box-shadow:0 20px 80px rgba(0,0,0,.45);
+
+}
+
+.dmf-video-player {
+
+	width:100%;
+
+	height:100%;
+
+}
+
+.dmf-video-player iframe {
+
+	width:100%;
+
+	height:100%;
+
+	border:0;
+
+}
+
+.dmf-video-modal__close {
+
+	position:absolute;
+
+	top:12px;
+
+	right:12px;
+
+	z-index:3;
+
+	width:42px;
+
+	height:42px;
+
+	border:none;
+
+	border-radius:50%;
+
+	background:rgba(255,255,255,.92);
+
+	cursor:pointer;
+
+	font-size:1.5rem;
+
+	line-height:1;
+
+}
+
+body.dmf-modal-open {
+
+	overflow:hidden;
+
+}
+
+@media (max-width:768px){
+
+	.dmf-video-modal__dialog{
+
+		width:95vw;
+
+	}
+
 }

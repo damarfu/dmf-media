@@ -39,6 +39,34 @@ final class Renderer {
 
 		</div>
 
+		<div
+			id="dmf-video-modal"
+			class="dmf-video-modal"
+			hidden>
+
+			<div class="dmf-video-modal__overlay"></div>
+
+			<div class="dmf-video-modal__dialog">
+
+				<button
+					type="button"
+					class="dmf-video-modal__close"
+					aria-label="<?php esc_attr_e( 'Cerrar vídeo', 'dmf-media' ); ?>">
+
+					&times;
+
+				</button>
+
+				<div
+					id="dmf-video-player"
+					class="dmf-video-player">
+
+				</div>
+
+			</div>
+
+		</div>
+
 		<?php
 
 		return (string) ob_get_clean();
@@ -55,9 +83,8 @@ final class Renderer {
 
 			<a
 				class="dmf-video-link"
-				href="<?php echo esc_url( $video->url ); ?>"
-				target="_blank"
-				rel="noopener noreferrer">
+				href="#"
+				data-video-id="<?php echo esc_attr( $video->videoId ); ?>">
 
 				<div class="dmf-video-thumb">
 
