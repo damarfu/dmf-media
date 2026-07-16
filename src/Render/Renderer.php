@@ -53,60 +53,38 @@ final class Renderer {
 
 		<article class="dmf-video-card">
 
-			<div class="dmf-video-thumb">
+			<a
+				class="dmf-video-link"
+				href="<?php echo esc_url( $video->url ); ?>"
+				target="_blank"
+				rel="noopener noreferrer">
 
-				<a
-					href="<?php echo esc_url( $video->url ); ?>"
-					target="_blank"
-					rel="noopener noreferrer">
+				<div class="dmf-video-thumb">
 
 					<img
 						src="<?php echo esc_url( $video->thumbnail ); ?>"
 						alt="<?php echo esc_attr( $video->title ); ?>"
 						loading="lazy">
 
-				</a>
+					<div class="dmf-video-overlay">
 
-			</div>
+						<div class="dmf-video-play">
 
-			<div class="dmf-video-content">
+							▶
 
-				<h3 class="dmf-video-title">
+						</div>
 
-					<a
-						href="<?php echo esc_url( $video->url ); ?>"
-						target="_blank"
-						rel="noopener noreferrer">
+						<h3 class="dmf-video-title">
 
-						<?php echo esc_html( $video->title ); ?>
+							<?php echo esc_html( $video->title ); ?>
 
-					</a>
+						</h3>
 
-				</h3>
+					</div>
 
-				<p class="dmf-video-date">
+				</div>
 
-					<?php echo esc_html(
-						$video->publishedAt->format( 'd/m/Y' )
-					); ?>
-
-				</p>
-
-				<p>
-
-					<a
-						class="dmf-video-button"
-						href="<?php echo esc_url( $video->url ); ?>"
-						target="_blank"
-						rel="noopener noreferrer">
-
-						▶ Ver vídeo
-
-					</a>
-
-				</p>
-
-			</div>
+			</a>
 
 		</article>
 
