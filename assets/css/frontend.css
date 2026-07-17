@@ -22,7 +22,7 @@
 .dmf-video-card {
 	position: relative;
 	overflow: hidden;
-	border-radius: 12px;
+	border-radius: 8px;
 	background: #000;
 }
 
@@ -84,7 +84,7 @@
 
 .dmf-video-play {
 	position: absolute;
-	top: 50%;
+	top: 50%; 
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 56px;
@@ -93,7 +93,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: rgba(255,255,255,.22);
+	background: rgba(51, 163, 52, 0.33);
 	backdrop-filter: blur(6px);
 	border: 1px solid rgba(255,255,255,.45);
 	color: #fff;

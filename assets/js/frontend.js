@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				<iframe
 					width="100%"
 					height="100%"
-					src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
+					src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3"
 					title="YouTube video player"
 					frameborder="0"
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
