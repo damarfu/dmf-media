@@ -57,9 +57,6 @@ Core\Plugin
                      Feed\YoutubeFeed
                               │
                               ▼
-                          Cache
-                              │
-                              ▼
                          Renderer
                               │
                               ▼
@@ -90,7 +87,6 @@ Actualmente:
 
 - Channel ID
 - Número máximo de vídeos
-- Vaciar caché
 - Ayuda del shortcode
 
 ---
@@ -112,11 +108,11 @@ En futuras versiones:
 
 ---
 
-## Cache
+## Caché
 
-Centraliza el almacenamiento temporal de datos para minimizar llamadas externas.
+`YoutubeFeed` utiliza la API Transients de WordPress para almacenar temporalmente el XML del feed y reducir las peticiones a YouTube.
 
-Actualmente utiliza la API Transients de WordPress.
+La carpeta `Cache/` queda reservada para una posible capa de caché compartida cuando el plugin incorpore más proveedores multimedia.
 
 ---
 
@@ -131,8 +127,11 @@ Video
 Propiedades:
 
 - título
+- ID de YouTube
 - URL
 - miniatura
+- fecha de publicación
+- descripción
 
 ---
 
@@ -211,7 +210,7 @@ Las futuras plataformas deberán añadirse implementando nuevas clases dentro de
 
 - PSR-4
 - Composer
-- PHP 8.2+
+- PHP 8.1+
 - WordPress Coding Standards (cuando sea posible)
 - Escape de salida y sanitización de entrada
 - Arquitectura modular

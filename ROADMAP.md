@@ -1,0 +1,32 @@
+# Roadmap
+
+Este documento recoge la evolución prevista de DMF Media. Las prioridades podrán ajustarse según las necesidades reales de las webs donde se use el plugin.
+
+## v0.1 – Foundation
+
+Completado:
+
+- Feed RSS de YouTube con caché mediante Transients.
+- Ajustes de canal y límite de vídeos.
+- Shortcode `[dmf_media]` con atributos `channel` y `limit`.
+- Tarjetas responsive y modal de reproducción.
+- Documentación inicial y validación en producción.
+
+## v0.2 – Usability
+
+- [ ] Aceptar `@nombreCanal` además del Channel ID.
+- [ ] Mejorar accesibilidad del modal: foco, tabulación y retorno al elemento activador.
+- [ ] Indicador de carga y animaciones discretas del reproductor.
+- [ ] Compatibilidad con listas de reproducción.
+
+## v0.3 – Customization
+
+- [ ] Mostrar un vídeo específico por ID o URL manteniendo el diseño de DMF Media.
+- [ ] Atributos de shortcode adicionales para controlar la presentación.
+- [ ] Personalización de relaciones de aspecto y estilos de tarjeta.
+
+## Futuro
+
+- [ ] Bloque nativo de Gutenberg.
+- [ ] Vimeo y otras fuentes multimedia.
+- [ ] Sistema de plantillas y hooks para desarrolladores.

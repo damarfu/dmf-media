@@ -7,6 +7,15 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 
 ---
 
+## [0.1.1] - 2026-07-24
+
+### Corregido
+- Se evita renderizar más de un modal cuando hay varios shortcodes en la misma página.
+- Las tarjetas mantienen un enlace directo al vídeo como alternativa si JavaScript no está disponible.
+- Correcciones de coherencia entre los metadatos y la documentación del proyecto.
+
+---
+
 ## [0.1.0] - 2026-07-22
 
 ### Añadido
@@ -19,7 +28,6 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 - Soporte para atributos `limit` y `channel`.
 - Lectura del feed RSS oficial de YouTube.
 - Caché para reducir peticiones al feed.
-- Botón para vaciar la caché desde el panel de administración.
 - Renderizado responsive mediante CSS propio.
 - Tarjetas con miniatura y título del vídeo.
 - Reproductor mediante modal.

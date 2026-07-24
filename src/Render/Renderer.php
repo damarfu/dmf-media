@@ -11,6 +11,11 @@ defined( 'ABSPATH' ) || exit;
 final class Renderer {
 
 	/**
+	 * Evita renderizar más de un modal cuando hay varios shortcodes en la página.
+	 */
+	private static bool $modalRendered = false;
+
+	/**
 	 * @param Video[] $videos
 	 */
 	public function render( array $videos ): string {
@@ -43,33 +48,8 @@ final class Renderer {
 
 		</div>
 
-		<div
-			id="dmf-video-modal"
-			class="dmf-video-modal"
-			hidden>
 
-			<div class="dmf-video-modal__overlay"></div>
-
-			<div class="dmf-video-modal__dialog">
-
-				<button
-					type="button"
-					class="dmf-video-modal__close"
-					aria-label="<?php esc_attr_e( 'Cerrar vídeo', 'dmf-media' ); ?>">
-
-					&times;
-
-				</button>
-
-				<div
-					id="dmf-video-player"
-					class="dmf-video-player">
-
-				</div>
-
-			</div>
-
-		</div>
+		<?php echo $this->renderModal(); ?>
 
 		<?php
 
@@ -87,7 +67,7 @@ final class Renderer {
 
 			<a
 				class="dmf-video-link"
-				href="#"
+				href="<?php echo esc_url( $video->url ); ?>"
 				data-video-id="<?php echo esc_attr( $video->videoId ); ?>">
 
 				<div class="dmf-video-thumb">
@@ -127,6 +107,51 @@ final class Renderer {
 			</a>
 
 		</article>
+
+		<?php
+
+		return (string) ob_get_clean();
+
+	}
+
+	private function renderModal(): string {
+
+		if ( self::$modalRendered ) {
+			return '';
+		}
+
+		self::$modalRendered = true;
+
+		ob_start();
+		?>
+
+		<div
+			id="dmf-video-modal"
+			class="dmf-video-modal"
+			hidden>
+
+			<div class="dmf-video-modal__overlay"></div>
+
+			<div class="dmf-video-modal__dialog">
+
+				<button
+					type="button"
+					class="dmf-video-modal__close"
+					aria-label="<?php esc_attr_e( 'Cerrar vídeo', 'dmf-media' ); ?>">
+
+					&times;
+
+				</button>
+
+				<div
+					id="dmf-video-player"
+					class="dmf-video-player">
+
+				</div>
+
+			</div>
+
+		</div>
 
 		<?php
 

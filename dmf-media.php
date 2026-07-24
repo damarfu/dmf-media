@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: DMF Media
- * Plugin URI: https://github.com/TU-USUARIO/dmf-media
+ * Plugin URI: https://github.com/damarfu/dmf-media
  * Description: Display media feeds from YouTube and other platforms.
- * Version: 0.1.0-alpha
+ * Version: 0.1.1
  * Requires at least: 6.7
  * Requires PHP: 8.1
  * Author: David Martínez
