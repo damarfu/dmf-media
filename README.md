@@ -9,6 +9,7 @@ DMF Media is designed to integrate perfectly with GeneratePress and GenerateBloc
 ## Features
 
 - Displays the latest videos from a YouTube channel.
+- Displays a specific YouTube video by ID or URL.
 - Uses the official YouTube RSS feed.
 - Lightweight cache system.
 - Responsive layout.
@@ -63,6 +64,20 @@ Different channel:
 [dmf_media channel="UCxxxxxxxxxxxxxxxx"]
 ```
 
+Specific video:
+
+```text
+[dmf_media video="VIDEO_ID"]
+```
+
+Specific video using a YouTube URL:
+
+```text
+[dmf_media video="https://www.youtube.com/watch?v=VIDEO_ID"]
+```
+
+The `video` attribute displays one specific video. When it is used, it takes priority over the `channel` and `limit` attributes.
+
 ---
 
 ## Philosophy
@@ -92,6 +107,7 @@ Your WordPress theme or block builder is responsible for the design.
 
 ### v0.2
 
+- ✅ Manual video by ID or YouTube URL
 - ⏳ Support `@channel`
 - ⏳ Gutenberg block
 - ⏳ Playlist support

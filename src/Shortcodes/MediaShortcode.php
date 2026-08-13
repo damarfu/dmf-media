@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DMF\Media\Shortcodes;
 
 use DMF\Media\Feed\YoutubeFeed;
+use DMF\Media\Feed\YoutubeVideo;
 use DMF\Media\Render\Renderer;
 
 defined( 'ABSPATH' ) || exit;
@@ -26,10 +27,24 @@ final class MediaShortcode {
 			[
 				'channel' => '',
 				'limit'   => '',
+				'video'   => '',
 			],
 			$atts,
 			'dmf_media'
 		);
+
+		$renderer = new Renderer();
+		$manualVideo = sanitize_text_field( (string) $atts['video'] );
+
+		if ( '' !== $manualVideo ) {
+			$video = ( new YoutubeVideo( $manualVideo ) )->getVideo();
+
+			if ( null === $video ) {
+				return '<p>No se pudo cargar el vídeo solicitado.</p>';
+			}
+
+			return $renderer->render( [ $video ] );
+		}
 
 		$options = get_option( 'dmf_media_settings', [] );
 
@@ -51,8 +66,6 @@ final class MediaShortcode {
 		$feed = new YoutubeFeed( $channel );
 
 		$videos = $feed->getVideos( $limit );
-
-		$renderer = new Renderer();
 
 		return $renderer->render( $videos );
 

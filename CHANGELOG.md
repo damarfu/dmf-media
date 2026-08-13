@@ -7,6 +7,18 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 
 ---
 
+## [0.2.0] - 2026-08-13
+
+### Añadido
+- Soporte para mostrar un vídeo concreto de YouTube mediante el atributo `video` del shortcode.
+- Acepta un ID de vídeo y URL de YouTube en los formatos `watch`, `youtu.be` y `shorts`.
+- El atributo `video` tiene prioridad sobre `channel` y `limit`.
+- Obtención de título y miniatura mediante el endpoint público oEmbed de YouTube, sin API key.
+- Caché de metadatos del vídeo manual durante 30 minutos.
+- Reutilización de las tarjetas y del modal de reproducción existentes para los vídeos manuales.
+
+---
+
 ## [0.1.1] - 2026-07-24
 
 ### Corregido

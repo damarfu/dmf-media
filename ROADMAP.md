@@ -14,6 +14,7 @@ Completado:
 
 ## v0.2 – Usability
 
+- [x] Mostrar un vídeo específico por ID o URL manteniendo el diseño de DMF Media.
 - [ ] Aceptar `@nombreCanal` además del Channel ID.
 - [ ] Mejorar accesibilidad del modal: foco, tabulación y retorno al elemento activador.
 - [ ] Indicador de carga y animaciones discretas del reproductor.
@@ -21,7 +22,6 @@ Completado:
 
 ## v0.3 – Customization
 
-- [ ] Mostrar un vídeo específico por ID o URL manteniendo el diseño de DMF Media.
 - [ ] Atributos de shortcode adicionales para controlar la presentación.
 - [ ] Personalización de relaciones de aspecto y estilos de tarjeta.
 
