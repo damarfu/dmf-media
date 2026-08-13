@@ -33,50 +33,76 @@ DMF Media is designed to integrate perfectly with GeneratePress and GenerateBloc
 1. Upload the plugin.
 2. Activate it.
 3. Go to **Settings → DMF Media**.
-4. Enter your YouTube Channel ID.
+4. Configure your YouTube Channel ID and default video limit.
 5. Save changes.
 
 ---
 
-## Shortcode
+## Configuration
 
-Default:
+### Channel ID
+
+The Channel ID is the unique identifier for a YouTube channel. It starts with `UC`, for example:
+
+```text
+UCfoi0nD0pW_ipZOldgTrp4A
+```
+
+You can find it in a YouTube Studio or channel URL that contains `/channel/UC...`.
+
+YouTube handles such as `@channelname` are not supported as a Channel ID yet.
+
+### Default video limit
+
+The default limit determines how many channel videos DMF Media displays when the shortcode does not include a `limit` attribute. The valid range is 1–20 videos.
+
+---
+
+## Shortcodes
+
+### Channel feed
+
+Use the configured Channel ID and default limit:
 
 ```text
 [dmf_media]
 ```
 
-Latest video:
-
-```text
-[dmf_media limit="1"]
-```
-
-Three videos:
+Override the number of videos for one shortcode, from 1 to 20:
 
 ```text
 [dmf_media limit="3"]
 ```
 
-Different channel:
+Use another Channel ID without changing the default configuration:
 
 ```text
 [dmf_media channel="UCxxxxxxxxxxxxxxxx"]
 ```
 
-Specific video:
+### Manual video
+
+Display one specific video by ID:
 
 ```text
 [dmf_media video="VIDEO_ID"]
 ```
 
-Specific video using a YouTube URL:
+Display one specific video with a YouTube URL:
 
 ```text
 [dmf_media video="https://www.youtube.com/watch?v=VIDEO_ID"]
 ```
 
-The `video` attribute displays one specific video. When it is used, it takes priority over the `channel` and `limit` attributes.
+The `video` attribute also supports `youtu.be` and `shorts` URLs.
+
+### Attribute priority
+
+When `video` is used, DMF Media displays only that video and ignores the `channel` and `limit` attributes:
+
+```text
+[dmf_media video="VIDEO_ID" channel="UCxxxxxxxx" limit="5"]
+```
 
 ---
 

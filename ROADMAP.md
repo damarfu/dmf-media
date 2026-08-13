@@ -15,7 +15,8 @@ Completado:
 ## v0.2 – Usability
 
 - [x] Mostrar un vídeo específico por ID o URL manteniendo el diseño de DMF Media.
-- [ ] Aceptar `@nombreCanal` además del Channel ID.
+- [x] Mejorar la ayuda y documentación de los ajustes del plugin.
+- [ ] Aceptar `@nombreCanal` además del Channel ID. Pospuesto: una implementación fiable requiere YouTube Data API v3 y una API key.
 - [ ] Mejorar accesibilidad del modal: foco, tabulación y retorno al elemento activador.
 - [ ] Indicador de carga y animaciones discretas del reproductor.
 - [ ] Compatibilidad con listas de reproducción.

@@ -29,7 +29,7 @@ final class Settings {
 
 		add_settings_section(
 			'dmf_media_main',
-			'Configuración',
+			'Configuración predeterminada',
 			'__return_false',
 			'dmf-media'
 		);
@@ -66,7 +66,11 @@ final class Settings {
 			placeholder="UCxxxxxxxxxxxxxxxx">
 
 		<p class="description">
-			ID del canal de YouTube del que se obtendrán los vídeos por defecto.
+			El identificador único del canal de YouTube del que se obtendrán los vídeos por defecto. Debe comenzar por <code>UC</code>, por ejemplo: <code>UCfoi0nD0pW_ipZOldgTrp4A</code>.
+		</p>
+
+		<p class="description">
+			Puedes localizarlo en una URL de YouTube Studio o de canal que contenga <code>/channel/UC...</code>. Actualmente, <code>@nombrecanal</code> no está admitido como Channel ID.
 		</p>
 
 		<?php
@@ -87,7 +91,7 @@ final class Settings {
 			value="<?php echo esc_attr( $options['limit'] ?? 6 ); ?>">
 
 		<p class="description">
-			Número máximo de vídeos mostrados cuando el shortcode no especifica el atributo <code>limit</code>.
+			Número de vídeos que se muestran por defecto, entre 1 y 20. El atributo <code>limit</code> del shortcode puede sobrescribir este valor.
 		</p>
 
 		<?php
@@ -101,6 +105,10 @@ final class Settings {
 		<div class="wrap">
 
 			<h1>DMF Media</h1>
+
+			<p>
+				DMF Media permite mostrar los últimos vídeos de un canal de YouTube o un vídeo concreto mediante las tarjetas y el reproductor modal propios del plugin.
+			</p>
 
 			<form method="post" action="options.php">
 
@@ -118,7 +126,9 @@ final class Settings {
 
 			<hr>
 
-			<h2>📺 Uso del shortcode</h2>
+			<h2>Uso mediante shortcode</h2>
+
+			<h3>Feed del canal</h3>
 
 			<table class="widefat striped" style="max-width:900px">
 
@@ -137,15 +147,7 @@ final class Settings {
 
 						<td><code>[dmf_media]</code></td>
 
-						<td>Muestra los últimos vídeos del canal configurado.</td>
-
-					</tr>
-
-					<tr>
-
-						<td><code>[dmf_media limit="1"]</code></td>
-
-						<td>Muestra únicamente el último vídeo.</td>
+						<td>Muestra los últimos vídeos del Channel ID configurado en esta página.</td>
 
 					</tr>
 
@@ -153,7 +155,7 @@ final class Settings {
 
 						<td><code>[dmf_media limit="3"]</code></td>
 
-						<td>Muestra los tres últimos vídeos.</td>
+						<td>Muestra tres vídeos. El atributo <code>limit</code> permite definir entre 1 y 20 vídeos para ese shortcode.</td>
 
 					</tr>
 
@@ -161,7 +163,7 @@ final class Settings {
 
 						<td><code>[dmf_media channel="UCxxxxxxxxxxxxxxxx"]</code></td>
 
-						<td>Obtiene los vídeos de otro canal sin modificar la configuración global.</td>
+						<td>Obtiene los vídeos de otro Channel ID sin modificar la configuración predeterminada.</td>
 
 					</tr>
 
@@ -169,9 +171,57 @@ final class Settings {
 
 			</table>
 
-			<p class="description" style="margin-top:12px;">
-				Si no se especifica el atributo <code>channel</code>, DMF Media utilizará el canal configurado en esta página.
-			</p>
+
+			<h3>Vídeo manual</h3>
+
+			<table class="widefat striped" style="max-width:900px">
+
+				<thead>
+
+					<tr>
+						<th>Ejemplo</th>
+						<th>Descripción</th>
+					</tr>
+
+				</thead>
+
+				<tbody>
+
+					<tr>
+
+						<td><code>[dmf_media video="VIDEO_ID"]</code></td>
+
+						<td>Muestra un vídeo concreto mediante su ID de YouTube.</td>
+
+					</tr>
+
+					<tr>
+
+						<td><code>[dmf_media video="https://www.youtube.com/watch?v=VIDEO_ID"]</code></td>
+
+						<td>Muestra un vídeo concreto mediante su URL. También se admiten las URL <code>youtu.be</code> y <code>shorts</code>.</td>
+
+					</tr>
+
+				</tbody>
+
+			</table>
+
+			<div class="notice notice-warning inline" style="margin-top:20px; max-width:900px;">
+
+				<p>
+
+					<strong>Importante:</strong> cuando se utiliza el atributo <code>video</code>, DMF Media muestra únicamente ese vídeo e ignora los atributos <code>channel</code> y <code>limit</code>.
+
+				</p>
+
+				<p>
+
+					Por ejemplo, <code>[dmf_media video="VIDEO_ID" channel="UCxxxxxxxx" limit="5"]</code> muestra solamente el vídeo indicado en <code>video</code>.
+
+				</p>
+
+			</div>
 
 			<div class="notice notice-info inline" style="margin-top:20px;">
 
@@ -179,7 +229,7 @@ final class Settings {
 
 					<strong>Consejo:</strong>
 
-					DMF Media proporciona el contenido (vídeos, miniaturas y títulos). El diseño y la maquetación dependen de tu tema o constructor de bloques.
+					El tema utilizado y herramientas como GenerateBlocks pueden controlar aspectos externos de la tarjeta, como anchuras, espaciados y su contexto visual.
 
 				</p>
 

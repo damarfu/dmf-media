@@ -17,6 +17,13 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 - Caché de metadatos del vídeo manual durante 30 minutos.
 - Reutilización de las tarjetas y del modal de reproducción existentes para los vídeos manuales.
 
+### Mejorado
+- Página de ajustes más clara para la configuración inicial de DMF Media.
+- Ayuda integrada ampliada con la documentación de los shortcodes disponibles.
+- Documentación del vídeo manual y de la prioridad del atributo `video`.
+- Explicación del Channel ID y del límite predeterminado de vídeos.
+- Enlace directo «Ajustes» desde la pantalla de Plugins de WordPress.
+
 ---
 
 ## [0.1.1] - 2026-07-24
