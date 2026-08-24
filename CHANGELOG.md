@@ -16,6 +16,12 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 - Obtención de título y miniatura mediante el endpoint público oEmbed de YouTube, sin API key.
 - Caché de metadatos del vídeo manual durante 30 minutos.
 - Reutilización de las tarjetas y del modal de reproducción existentes para los vídeos manuales.
+- Soporte para playlists públicas de YouTube mediante RSS.
+- Acepta Playlist ID y URL de playlist mediante el atributo `playlist`.
+- El atributo `playlist` respeta el límite configurado o el atributo `limit` del shortcode.
+- Prioridad de fuentes: `video` > `playlist` > `channel`.
+- Parser RSS compartido para canales y playlists.
+- Implementación de playlists sin API key ni YouTube Data API.
 
 ### Mejorado
 - Página de ajustes más clara para la configuración inicial de DMF Media.

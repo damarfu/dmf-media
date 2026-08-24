@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace DMF\Media\Feed;
 
-use DateTimeImmutable;
-use DMF\Media\Models\Video;
-
 defined( 'ABSPATH' ) || exit;
 
 final class YoutubeFeed {
@@ -32,7 +29,7 @@ final class YoutubeFeed {
 			return [];
 		}
 
-		$videos = $this->parseVideos( $xml );
+		$videos = ( new YoutubeRssParser() )->parse( $xml );
 
 		return array_slice( $videos, 0, $limit );
 
@@ -87,50 +84,6 @@ final class YoutubeFeed {
 		);
 
 		return $body;
-
-	}
-
-	/**
-	 * @return Video[]
-	 */
-	private function parseVideos( string $xmlString ): array {
-
-		libxml_use_internal_errors( true );
-
-		$xml = simplexml_load_string( $xmlString );
-
-		if ( ! $xml ) {
-			return [];
-		}
-
-		$namespaces = $xml->getNamespaces( true );
-
-		$videos = [];
-
-		foreach ( $xml->entry as $entry ) {
-
-			$mediaGroup = $entry
-				->children( $namespaces['media'] )
-				->group;
-
-			$youtube = $entry->children(
-				$namespaces['yt']
-			);
-
-			$videos[] = new Video(
-				title: (string) $entry->title,
-				videoId: (string) $youtube->videoId,
-				url: (string) $entry->link['href'],
-				thumbnail: (string) $mediaGroup->thumbnail->attributes()->url,
-				publishedAt: new DateTimeImmutable(
-					(string) $entry->published
-				),
-				description: (string) $mediaGroup->description
-			);
-
-		}
-
-		return $videos;
 
 	}
 

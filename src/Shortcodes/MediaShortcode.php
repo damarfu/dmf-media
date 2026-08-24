@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DMF\Media\Shortcodes;
 
 use DMF\Media\Feed\YoutubeFeed;
+use DMF\Media\Feed\YoutubePlaylist;
 use DMF\Media\Feed\YoutubeVideo;
 use DMF\Media\Render\Renderer;
 
@@ -28,6 +29,7 @@ final class MediaShortcode {
 				'channel' => '',
 				'limit'   => '',
 				'video'   => '',
+				'playlist' => '',
 			],
 			$atts,
 			'dmf_media'
@@ -48,16 +50,31 @@ final class MediaShortcode {
 
 		$options = get_option( 'dmf_media_settings', [] );
 
-		$channel = ! empty( $atts['channel'] )
-			? trim( (string) $atts['channel'] )
-			: ( $options['channel'] ?? '' );
-
 		$limit = ! empty( $atts['limit'] )
 			? (int) $atts['limit']
 			: (int) ( $options['limit'] ?? 6 );
 
-		// Validar límite
 		$limit = max( 1, min( 20, $limit ) );
+
+		$playlist = sanitize_text_field( (string) $atts['playlist'] );
+
+		if ( '' !== $playlist ) {
+			$videos = ( new YoutubePlaylist( $playlist ) )->getVideos( $limit );
+
+			if ( null === $videos ) {
+				return '<p>No se pudo cargar la playlist de YouTube.</p>';
+			}
+
+			if ( empty( $videos ) ) {
+				return '<p>No hay vídeos disponibles en esta playlist.</p>';
+			}
+
+			return $renderer->render( $videos );
+		}
+
+		$channel = ! empty( $atts['channel'] )
+			? trim( (string) $atts['channel'] )
+			: ( $options['channel'] ?? '' );
 
 		if ( empty( $channel ) ) {
 			return '<p>Debes configurar un canal de YouTube en Ajustes → DMF Media.</p>';

@@ -80,6 +80,26 @@ Use another Channel ID without changing the default configuration:
 [dmf_media channel="UCxxxxxxxxxxxxxxxx"]
 ```
 
+### YouTube playlist
+
+Display videos from a public playlist by Playlist ID:
+
+```text
+[dmf_media playlist="PLxxxxxxxx"]
+```
+
+You can also use a standard playlist URL:
+
+```text
+[dmf_media playlist="https://www.youtube.com/playlist?list=PLxxxxxxxx"]
+```
+
+The `limit` attribute applies to playlists too. If it is omitted, DMF Media uses the configured default limit:
+
+```text
+[dmf_media playlist="PLxxxxxxxx" limit="6"]
+```
+
 ### Manual video
 
 Display one specific video by ID:
@@ -96,13 +116,17 @@ Display one specific video with a YouTube URL:
 
 The `video` attribute also supports `youtu.be` and `shorts` URLs.
 
-### Attribute priority
+### Source priority
 
-When `video` is used, DMF Media displays only that video and ignores the `channel` and `limit` attributes:
+DMF Media uses sources in this order: `video` > `playlist` > `channel`.
+
+When `video` is used, DMF Media displays only that video and ignores the `playlist`, `channel` and `limit` attributes:
 
 ```text
-[dmf_media video="VIDEO_ID" channel="UCxxxxxxxx" limit="5"]
+[dmf_media video="VIDEO_ID" playlist="PLxxxxxxxx" channel="UCxxxxxxxx" limit="5"]
 ```
+
+When `playlist` is used without `video`, DMF Media displays the playlist and ignores `channel`.
 
 ---
 
@@ -134,9 +158,9 @@ Your WordPress theme or block builder is responsible for the design.
 ### v0.2
 
 - ✅ Manual video by ID or YouTube URL
+- ✅ YouTube playlist support
 - ⏳ Support `@channel`
 - ⏳ Gutenberg block
-- ⏳ Playlist support
 - ⏳ Vimeo support
 
 ---
