@@ -62,11 +62,11 @@ final class MediaShortcode {
 			$videos = ( new YoutubePlaylist( $playlist ) )->getVideos( $limit );
 
 			if ( null === $videos ) {
-				return '<p>No se pudo cargar la playlist de YouTube.</p>';
+				return '<p>No se ha podido cargar el contenido.</p>';
 			}
 
 			if ( empty( $videos ) ) {
-				return '<p>No hay vídeos disponibles en esta playlist.</p>';
+				return '<p>No hay vídeos disponibles.</p>';
 			}
 
 			return $renderer->render( $videos );

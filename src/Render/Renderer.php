@@ -25,7 +25,7 @@ final class Renderer {
 		if ( empty( $videos ) ) {
 			?>
 
-			<p>No se encontraron vídeos.</p>
+			<p>No hay vídeos disponibles.</p>
 
 			<?php
 

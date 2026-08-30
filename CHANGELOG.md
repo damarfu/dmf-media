@@ -7,6 +7,15 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 
 ---
 
+## [0.2.3] - 2026-08-30
+
+### Añadido
+- Spinner y mensaje «Cargando vídeo…» mientras se carga el reproductor.
+- Estado de error del reproductor con un único botón «Cerrar».
+- Mensajes diferenciados para contenido vacío y errores de carga.
+
+---
+
 ## [0.2.2] - 2026-08-30
 
 ### Mejorado
