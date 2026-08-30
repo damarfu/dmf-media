@@ -7,6 +7,15 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 
 ---
 
+## [0.2.1] - 2026-08-30
+
+### Mejorado
+- Ayuda integrada y README actualizados para documentar el soporte de playlists.
+- Documentación de Playlist ID, URL de playlist, RSS público de YouTube y prioridad de fuentes.
+- Documentada la limitación actual de 15 vídeos por playlist del RSS público de YouTube.
+
+---
+
 ## [0.2.0] - 2026-08-13
 
 ### Añadido

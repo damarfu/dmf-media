@@ -107,7 +107,7 @@ final class Settings {
 			<h1>DMF Media</h1>
 
 			<p>
-				DMF Media permite mostrar los últimos vídeos de un canal de YouTube o un vídeo concreto mediante las tarjetas y el reproductor modal propios del plugin.
+				DMF Media permite mostrar los últimos vídeos de un canal de YouTube, los vídeos de una playlist pública o un vídeo concreto mediante las tarjetas y el reproductor modal propios del plugin.
 			</p>
 
 			<form method="post" action="options.php">
@@ -171,6 +171,44 @@ final class Settings {
 
 			</table>
 
+			<h3>Playlist pública</h3>
+
+			<table class="widefat striped" style="max-width:900px">
+
+				<thead>
+
+					<tr>
+						<th>Ejemplo</th>
+						<th>Descripción</th>
+					</tr>
+
+				</thead>
+
+				<tbody>
+
+					<tr>
+
+						<td><code>[dmf_media playlist="PLxxxxxxxx"]</code></td>
+
+						<td>Muestra los vídeos de una playlist pública mediante su Playlist ID.</td>
+
+					</tr>
+
+					<tr>
+
+						<td><code>[dmf_media playlist="https://www.youtube.com/playlist?list=PLxxxxxxxx"]</code></td>
+
+						<td>Muestra una playlist pública mediante su URL estándar. DMF Media utiliza el RSS público de YouTube y no requiere API key.</td>
+
+					</tr>
+
+				</tbody>
+
+			</table>
+
+			<p class="description" style="margin-top:12px; max-width:900px;">
+				El feed RSS público de YouTube proporciona actualmente un máximo de 15 vídeos por playlist. El atributo <code>limit</code> puede reducir ese número, pero no puede mostrar más vídeos de los que proporciona YouTube mediante RSS.
+			</p>
 
 			<h3>Vídeo manual</h3>
 
@@ -211,13 +249,13 @@ final class Settings {
 
 				<p>
 
-					<strong>Importante:</strong> cuando se utiliza el atributo <code>video</code>, DMF Media muestra únicamente ese vídeo e ignora los atributos <code>channel</code> y <code>limit</code>.
+					<strong>Importante:</strong> las fuentes tienen esta prioridad: <code>video</code> &gt; <code>playlist</code> &gt; <code>channel</code>. Cuando se utiliza <code>video</code>, DMF Media muestra únicamente ese vídeo e ignora los atributos <code>playlist</code>, <code>channel</code> y <code>limit</code>.
 
 				</p>
 
 				<p>
 
-					Por ejemplo, <code>[dmf_media video="VIDEO_ID" channel="UCxxxxxxxx" limit="5"]</code> muestra solamente el vídeo indicado en <code>video</code>.
+					Por ejemplo, <code>[dmf_media video="VIDEO_ID" playlist="PLxxxxxxxx" channel="UCxxxxxxxx"]</code> muestra solamente el vídeo indicado en <code>video</code>.
 
 				</p>
 

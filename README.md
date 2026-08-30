@@ -9,6 +9,7 @@ DMF Media is designed to integrate perfectly with GeneratePress and GenerateBloc
 ## Features
 
 - Displays the latest videos from a YouTube channel.
+- Displays videos from a public YouTube playlist.
 - Displays a specific YouTube video by ID or URL.
 - Uses the official YouTube RSS feed.
 - Lightweight cache system.
@@ -99,6 +100,8 @@ The `limit` attribute applies to playlists too. If it is omitted, DMF Media uses
 ```text
 [dmf_media playlist="PLxxxxxxxx" limit="6"]
 ```
+
+DMF Media reads public playlists through the YouTube RSS feed, so no API key is required. YouTube currently provides a maximum of 15 videos per playlist through this feed. The `limit` attribute can reduce that number, but cannot display more videos than YouTube provides.
 
 ### Manual video
 
