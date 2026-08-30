@@ -7,6 +7,17 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 
 ---
 
+## [0.2.2] - 2026-08-30
+
+### Mejorado
+- Nuevo diseño visual para las tarjetas de vídeo.
+- Degradado superior para mejorar la legibilidad del título sobre las miniaturas.
+- Botón Play circular, centrado y más discreto.
+- Hover sutil y mejoras de presentación responsive.
+- Sin cambios en el modal, el reproductor ni la lógica funcional del plugin.
+
+---
+
 ## [0.2.1] - 2026-08-30
 
 ### Mejorado

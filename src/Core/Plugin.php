@@ -50,7 +50,7 @@ final class Plugin {
 				dirname( __DIR__, 2 ) . '/dmf-media.php'
 			),
 			[],
-			'0.2.1'
+			'0.2.2'
 		);
 
 		wp_enqueue_script(
@@ -60,7 +60,7 @@ final class Plugin {
 				dirname( __DIR__, 2 ) . '/dmf-media.php'
 			),
 			[],
-			'0.2.1',
+			'0.2.2',
 			true
 		);
 

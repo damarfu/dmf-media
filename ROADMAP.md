@@ -17,6 +17,7 @@ Completado:
 - [x] Mostrar un vídeo específico por ID o URL manteniendo el diseño de DMF Media.
 - [x] Mejorar la ayuda y documentación de los ajustes del plugin.
 - [x] Compatibilidad con listas de reproducción públicas de YouTube mediante RSS.
+- [x] Mejoras visuales de las tarjetas de vídeo.
 - [ ] Aceptar `@nombreCanal` además del Channel ID. Pospuesto: una implementación fiable requiere YouTube Data API v3 y una API key.
 - [ ] Mejorar accesibilidad del modal: foco, tabulación y retorno al elemento activador.
 - [ ] Indicador de carga y animaciones discretas del reproductor.
