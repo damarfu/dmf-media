@@ -128,6 +128,11 @@ final class Renderer {
 		<div
 			id="dmf-video-modal"
 			class="dmf-video-modal"
+				role="dialog"
+				aria-modal="true"
+				aria-label="<?php esc_attr_e( 'Reproductor de vídeo', 'dmf-media' ); ?>"
+				aria-hidden="true"
+				tabindex="-1"
 			hidden>
 
 			<div class="dmf-video-modal__overlay"></div>
