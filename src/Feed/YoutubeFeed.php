@@ -21,7 +21,7 @@ final class YoutubeFeed {
 	/**
 	 * @return Video[]
 	 */
-	public function getVideos( int $limit = 6 ): array {
+	public function getVideos( int $limit = 6, int $offset = 0 ): array {
 
 		$xml = $this->getFeedXml();
 
@@ -31,7 +31,7 @@ final class YoutubeFeed {
 
 		$videos = ( new YoutubeRssParser() )->parse( $xml );
 
-		return array_slice( $videos, 0, $limit );
+		return array_slice( $videos, $offset, $limit );
 
 	}
 

@@ -28,6 +28,7 @@ final class MediaShortcode {
 			[
 				'channel' => '',
 				'limit'   => '',
+				'offset'  => '',
 				'video'   => '',
 				'playlist' => '',
 			],
@@ -56,10 +57,12 @@ final class MediaShortcode {
 
 		$limit = max( 1, min( 20, $limit ) );
 
+		$offset = max( 0, (int) $atts['offset'] );
+
 		$playlist = sanitize_text_field( (string) $atts['playlist'] );
 
 		if ( '' !== $playlist ) {
-			$videos = ( new YoutubePlaylist( $playlist ) )->getVideos( $limit );
+			$videos = ( new YoutubePlaylist( $playlist ) )->getVideos( $limit, $offset );
 
 			if ( null === $videos ) {
 				return '<p>No se ha podido cargar el contenido.</p>';
@@ -82,7 +85,7 @@ final class MediaShortcode {
 
 		$feed = new YoutubeFeed( $channel );
 
-		$videos = $feed->getVideos( $limit );
+		$videos = $feed->getVideos( $limit, $offset );
 
 		return $renderer->render( $videos );
 

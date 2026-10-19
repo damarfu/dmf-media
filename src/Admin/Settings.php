@@ -161,6 +161,14 @@ final class Settings {
 
 					<tr>
 
+						<td><code>[dmf_media offset="1" limit="6"]</code></td>
+
+						<td>Omite el vídeo más reciente y muestra los seis siguientes. También puedes usar <code>offset="2"</code> para omitir los dos más recientes. Solo trabaja con los vídeos disponibles en el RSS.</td>
+
+					</tr>
+
+					<tr>
+
 						<td><code>[dmf_media channel="UCxxxxxxxxxxxxxxxx"]</code></td>
 
 						<td>Obtiene los vídeos de otro Channel ID sin modificar la configuración predeterminada.</td>
@@ -260,6 +268,10 @@ final class Settings {
 				</p>
 
 			</div>
+
+			<p class="description" style="margin-top:12px; max-width:900px;">
+				El atributo <code>offset</code> funciona con feeds de canal y playlists. Se aplica antes que <code>limit</code> y no afecta al modo de vídeo manual. En las playlists públicas, YouTube proporciona actualmente un máximo de 15 vídeos mediante RSS.
+			</p>
 
 			<div class="notice notice-info inline" style="margin-top:20px;">
 

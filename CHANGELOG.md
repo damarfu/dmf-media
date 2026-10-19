@@ -7,6 +7,14 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 
 ---
 
+## [Unreleased]
+
+### Añadido
+- Soporte para omitir los vídeos más recientes de canales y playlists mediante el atributo `offset`.
+- Aplicación de `offset` antes de `limit`, sin afectar al modo de vídeo manual.
+
+---
+
 ## [0.2.3] - 2026-08-30
 
 ### Añadido

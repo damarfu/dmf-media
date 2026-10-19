@@ -19,6 +19,7 @@ Completado:
 - [x] Compatibilidad con listas de reproducción públicas de YouTube mediante RSS.
 - [x] Mejoras visuales de las tarjetas de vídeo.
 - [x] Experiencia de usuario: estados de carga y errores del reproductor.
+- [x] Permitir omitir los vídeos más recientes del feed mediante un atributo `offset`.
 - [ ] Aceptar `@nombreCanal` además del Channel ID. Pospuesto: una implementación fiable requiere YouTube Data API v3 y una API key.
 - [ ] Mejorar accesibilidad del modal: foco, tabulación y retorno al elemento activador.
 

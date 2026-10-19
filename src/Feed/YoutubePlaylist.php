@@ -24,7 +24,7 @@ final class YoutubePlaylist {
 	/**
 	 * @return array<int, \DMF\Media\Models\Video>|null Null si la playlist no se pudo cargar.
 	 */
-	public function getVideos( int $limit = 6 ): ?array {
+	public function getVideos( int $limit = 6, int $offset = 0 ): ?array {
 
 		$playlistId = $this->normalizePlaylistId();
 
@@ -40,7 +40,7 @@ final class YoutubePlaylist {
 
 		$videos = ( new YoutubeRssParser() )->parse( $xml );
 
-		return array_slice( $videos, 0, $limit );
+		return array_slice( $videos, $offset, $limit );
 
 	}
 

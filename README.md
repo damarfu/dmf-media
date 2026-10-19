@@ -75,6 +75,15 @@ Override the number of videos for one shortcode, from 1 to 20:
 [dmf_media limit="3"]
 ```
 
+Omitir los vídeos más recientes disponibles en el feed RSS antes de aplicar el límite:
+
+```text
+[dmf_media offset="1" limit="5"]
+[dmf_media offset="2" limit="5"]
+```
+
+`offset="1"` omite el vídeo más reciente; `offset="2"` omite los dos más recientes. Después se aplica `limit` para determinar cuántos vídeos se muestran. Este atributo funciona con feeds de canal y playlists, pero solo puede trabajar con los vídeos que YouTube proporciona mediante RSS. En las playlists públicas, el RSS proporciona actualmente un máximo de 15 vídeos. No se aplica al modo de vídeo manual.
+
 Use another Channel ID without changing the default configuration:
 
 ```text
@@ -130,6 +139,14 @@ When `video` is used, DMF Media displays only that video and ignores the `playli
 ```
 
 When `playlist` is used without `video`, DMF Media displays the playlist and ignores `channel`.
+
+When `offset` is used, DMF Media skips that number of the most recent videos available in the YouTube RSS feed before applying `limit`:
+
+```text
+[dmf_media offset="1" limit="5"]
+```
+
+For public playlists, YouTube currently provides a maximum of 15 videos through RSS. `offset` and `limit` can only work with those available videos.
 
 ---
 
