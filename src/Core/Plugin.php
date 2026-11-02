@@ -45,22 +45,16 @@ final class Plugin {
 
 		wp_enqueue_style(
 			'dmf-media',
-			plugins_url(
-				'assets/css/frontend.css',
-				dirname( __DIR__, 2 ) . '/dmf-media.php'
-			),
+			plugins_url( 'assets/css/frontend.css', DMF_MEDIA_FILE ),
 			[],
-			'0.2.3'
+			DMF_MEDIA_VERSION
 		);
 
 		wp_enqueue_script(
 			'dmf-media',
-			plugins_url(
-				'assets/js/frontend.js',
-				dirname( __DIR__, 2 ) . '/dmf-media.php'
-			),
+			plugins_url( 'assets/js/frontend.js', DMF_MEDIA_FILE ),
 			[],
-			'0.2.3',
+			DMF_MEDIA_VERSION,
 			true
 		);
 

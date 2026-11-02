@@ -12,6 +12,25 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 ### Añadido
 - Soporte para omitir los vídeos más recientes de canales y playlists mediante el atributo `offset`.
 - Aplicación de `offset` antes de `limit`, sin afectar al modo de vídeo manual.
+- Clase `MediaResolver` como punto único de resolución de fuentes, compartida por el shortcode y el futuro bloque.
+- Clase `YoutubeId` para normalizar Channel ID, Playlist ID y vídeo a partir de IDs o URLs.
+
+### Corregido
+- Se comprueba el código HTTP y el `Content-Type` antes de guardar un feed en caché, evitando cachear páginas de error durante 30 minutos.
+- Caché negativa de 5 minutos para no repetir peticiones a YouTube cuando un feed o un oEmbed fallan.
+- Validación del Channel ID con mensajes claros; se admite el ID o una URL `/channel/UC...`.
+- Validación del Playlist ID y del vídeo antes de hacer peticiones, con mensajes específicos.
+- Soporte de URLs de playlist de `m.youtube.com`, `music.youtube.com`, `watch?...&list=`, `embed` y playlists `UU`, `LL`, `FL`, `RD` y `OLAK5uy_`.
+- Soporte de URLs de vídeo `m.youtube.com`, `embed` y `live`.
+- Validación del ID de vídeo procedente del RSS antes de usarlo.
+- Los ajustes se validan y sanitizan al guardarlos; un Channel ID incorrecto conserva el valor anterior y muestra un aviso.
+- El límite máximo pasa de 20 a 15 vídeos, el máximo real que entrega el RSS de YouTube.
+- `limit="0"` o un valor fuera de rango se ajustan a 1–15 en lugar de ignorarse.
+- Un valor corrupto en las opciones ya no provoca un error fatal en el frontend.
+- El modelo `Video` admite fecha de publicación nula (el vídeo manual no la conoce).
+
+### Eliminado
+- Archivos vacíos `src/Core/Autoloader.php` y `src/Cache/Cache.php`.
 
 ---
 

@@ -22,6 +22,18 @@ class ComposerStaticInitf0c9f4c7dc89724d9dfec8456799f57c
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'DMF\\Media\\Admin\\Settings' => __DIR__ . '/../..' . '/src/Admin/Settings.php',
+        'DMF\\Media\\Core\\Plugin' => __DIR__ . '/../..' . '/src/Core/Plugin.php',
+        'DMF\\Media\\Feed\\YoutubeFeed' => __DIR__ . '/../..' . '/src/Feed/YoutubeFeed.php',
+        'DMF\\Media\\Feed\\YoutubePlaylist' => __DIR__ . '/../..' . '/src/Feed/YoutubePlaylist.php',
+        'DMF\\Media\\Feed\\YoutubeRssParser' => __DIR__ . '/../..' . '/src/Feed/YoutubeRssParser.php',
+        'DMF\\Media\\Feed\\YoutubeVideo' => __DIR__ . '/../..' . '/src/Feed/YoutubeVideo.php',
+        'DMF\\Media\\Models\\Video' => __DIR__ . '/../..' . '/src/Models/Video.php',
+        'DMF\\Media\\Render\\Renderer' => __DIR__ . '/../..' . '/src/Render/Renderer.php',
+        'DMF\\Media\\Resolver\\MediaResolver' => __DIR__ . '/../..' . '/src/Resolver/MediaResolver.php',
+        'DMF\\Media\\Resolver\\MediaResult' => __DIR__ . '/../..' . '/src/Resolver/MediaResult.php',
+        'DMF\\Media\\Shortcodes\\MediaShortcode' => __DIR__ . '/../..' . '/src/Shortcodes/MediaShortcode.php',
+        'DMF\\Media\\Support\\YoutubeId' => __DIR__ . '/../..' . '/src/Support/YoutubeId.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

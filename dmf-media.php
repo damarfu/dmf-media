@@ -13,6 +13,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
+if ( ! defined( 'DMF_MEDIA_VERSION' ) ) {
+	define( 'DMF_MEDIA_VERSION', '0.2.3' );
+}
+
+if ( ! defined( 'DMF_MEDIA_FILE' ) ) {
+	define( 'DMF_MEDIA_FILE', __FILE__ );
+}
+
 /*
 |--------------------------------------------------------------------------
 | Composer Autoload
@@ -30,7 +38,7 @@ add_filter(
 		$settingsLink = sprintf(
 			'<a href="%s">%s</a>',
 			esc_url( admin_url( 'options-general.php?page=dmf-media' ) ),
-			esc_html__( 'Ajustes', 'dmf-media' )
+			esc_html( 'Ajustes' )
 		);
 
 		array_unshift( $links, $settingsLink );

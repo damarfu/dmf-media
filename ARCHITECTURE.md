@@ -22,12 +22,13 @@ dmf-media/
 │
 ├── src/
 │   ├── Admin/
-│   ├── Cache/
 │   ├── Core/
 │   ├── Feed/
 │   ├── Models/
 │   ├── Render/
-│   └── Shortcodes/
+│   ├── Resolver/
+│   ├── Shortcodes/
+│   └── Support/
 │
 ├── vendor/
 │
@@ -54,10 +55,18 @@ Core\Plugin
       └─────────────► Shortcodes\MediaShortcode
                               │
                               ▼
-                     Feed\YoutubeFeed
+                     Resolver\MediaResolver ─────► Support\YoutubeId
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+      Feed\YoutubeFeed  Feed\YoutubePlaylist  Feed\YoutubeVideo
+              └───────────────┼───────────────┘
                               │
                               ▼
-                         Renderer
+                     Models\Video[]
+                              │
+                              ▼
+                          Renderer
                               │
                               ▼
                            HTML
@@ -97,7 +106,10 @@ Responsable únicamente de obtener información desde plataformas externas.
 
 Actualmente implementado:
 
-- YouTube RSS
+- `YoutubeFeed`: RSS público de un canal.
+- `YoutubePlaylist`: RSS público de una playlist.
+- `YoutubeVideo`: metadatos de un vídeo mediante oEmbed.
+- `YoutubeRssParser`: conversión del XML en objetos `Video`.
 
 En futuras versiones:
 
@@ -108,11 +120,29 @@ En futuras versiones:
 
 ---
 
+## Resolver
+
+`MediaResolver` decide qué fuente se muestra (prioridad `video` > `playlist` > `channel`),
+valida los identificadores y aplica `limit` y `offset`. Devuelve un `MediaResult` con los
+vídeos o con un mensaje de error ya redactado, de forma que el shortcode y el futuro
+bloque de Gutenberg compartan exactamente la misma lógica.
+
+`Support\YoutubeId` centraliza la normalización de Channel ID, Playlist ID y vídeo a
+partir de un identificador o de una URL de YouTube.
+
+---
+
 ## Caché
 
-`YoutubeFeed` utiliza la API Transients de WordPress para almacenar temporalmente el XML del feed y reducir las peticiones a YouTube.
+Cada clase de `Feed` utiliza la API Transients de WordPress para almacenar temporalmente
+la respuesta de YouTube y reducir las peticiones:
 
-La carpeta `Cache/` queda reservada para una posible capa de caché compartida cuando el plugin incorpore más proveedores multimedia.
+- Éxito: 30 minutos de caché del XML o de los metadatos.
+- Fallo: 5 minutos de caché negativa, para no repetir una petición que acaba de fallar.
+
+Solo se guarda una respuesta si el código HTTP es 200, el `Content-Type` es el esperado y
+el contenido se puede interpretar. Así se evita cachear durante media hora una página de
+error o un aviso de consentimiento.
 
 ---
 
@@ -130,7 +160,7 @@ Propiedades:
 - ID de YouTube
 - URL
 - miniatura
-- fecha de publicación
+- fecha de publicación (puede ser `null` en el vídeo manual)
 - descripción
 
 ---
@@ -139,11 +169,10 @@ Propiedades:
 
 Único responsable de generar HTML.
 
-No obtiene datos.
+No obtiene datos ni consulta opciones.
 
-No accede a WordPress.
-
-Simplemente recibe un array de objetos Video y produce el marcado.
+Recibe un array de objetos Video y produce el marcado, escapando cada valor con las
+funciones de WordPress.
 
 ---
 
@@ -154,7 +183,7 @@ Punto de entrada desde WordPress.
 Responsabilidades:
 
 - leer atributos
-- solicitar vídeos
+- delegar en `MediaResolver`
 - enviar el resultado al Renderer
 
 ---

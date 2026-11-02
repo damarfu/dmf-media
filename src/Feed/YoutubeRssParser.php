@@ -6,6 +6,8 @@ namespace DMF\Media\Feed;
 
 use DateTimeImmutable;
 use DMF\Media\Models\Video;
+use DMF\Media\Support\YoutubeId;
+use SimpleXMLElement;
 use Throwable;
 
 defined( 'ABSPATH' ) || exit;
@@ -16,17 +18,13 @@ defined( 'ABSPATH' ) || exit;
 final class YoutubeRssParser {
 
 	/**
-	 * @return Video[]
+	 * @return array<int, Video>
 	 */
 	public function parse( string $xmlString ): array {
 
-		$previousUseErrors = libxml_use_internal_errors( true );
-		$xml = simplexml_load_string( $xmlString );
+		$xml = $this->load( $xmlString );
 
-		libxml_clear_errors();
-		libxml_use_internal_errors( $previousUseErrors );
-
-		if ( false === $xml ) {
+		if ( null === $xml ) {
 			return [];
 		}
 
@@ -51,22 +49,63 @@ final class YoutubeRssParser {
 	}
 
 	/**
+	 * Comprueba que el XML es válido y que es un feed de YouTube.
+	 */
+	public function isValid( string $xmlString ): bool {
+
+		$xml = $this->load( $xmlString );
+
+		if ( null === $xml ) {
+			return false;
+		}
+
+		$namespaces = $xml->getNamespaces( true );
+
+		return ! empty( $namespaces['media'] ) && ! empty( $namespaces['yt'] );
+
+	}
+
+	private function load( string $xmlString ): ?SimpleXMLElement {
+
+		if ( '' === trim( $xmlString ) ) {
+			return null;
+		}
+
+		$previousUseErrors = libxml_use_internal_errors( true );
+		$xml               = simplexml_load_string( $xmlString );
+
+		libxml_clear_errors();
+		libxml_use_internal_errors( $previousUseErrors );
+
+		if ( false === $xml ) {
+			return null;
+		}
+
+		if ( 'feed' !== $xml->getName() ) {
+			return null;
+		}
+
+		return $xml;
+
+	}
+
+	/**
 	 * @param array<string, string> $namespaces
 	 */
-	private function parseEntry( \SimpleXMLElement $entry, array $namespaces ): ?Video {
+	private function parseEntry( SimpleXMLElement $entry, array $namespaces ): ?Video {
 
 		$mediaGroup = $entry->children( $namespaces['media'] )->group;
-		$youtube = $entry->children( $namespaces['yt'] );
-		$thumbnail = $mediaGroup->thumbnail->attributes()->url;
-		$link = $entry->link['href'];
+		$youtube    = $entry->children( $namespaces['yt'] );
+		$thumbnail  = $mediaGroup->thumbnail->attributes()->url;
+		$link       = $entry->link['href'];
 
-		$title = trim( (string) $entry->title );
-		$videoId = trim( (string) $youtube->videoId );
-		$url = trim( (string) $link );
+		$title        = trim( (string) $entry->title );
+		$videoId      = YoutubeId::video( trim( (string) $youtube->videoId ) );
+		$url          = trim( (string) $link );
 		$thumbnailUrl = trim( (string) $thumbnail );
-		$published = trim( (string) $entry->published );
+		$published    = trim( (string) $entry->published );
 
-		if ( '' === $title || '' === $videoId || '' === $url || '' === $thumbnailUrl || '' === $published ) {
+		if ( '' === $title || null === $videoId || '' === $url || '' === $thumbnailUrl || '' === $published ) {
 			return null;
 		}
 

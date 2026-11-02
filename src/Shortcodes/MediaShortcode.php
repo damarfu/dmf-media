@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace DMF\Media\Shortcodes;
 
-use DMF\Media\Feed\YoutubeFeed;
-use DMF\Media\Feed\YoutubePlaylist;
-use DMF\Media\Feed\YoutubeVideo;
 use DMF\Media\Render\Renderer;
+use DMF\Media\Resolver\MediaResolver;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -26,68 +24,26 @@ final class MediaShortcode {
 
 		$atts = shortcode_atts(
 			[
-				'channel' => '',
-				'limit'   => '',
-				'offset'  => '',
-				'video'   => '',
+				'channel'  => '',
+				'limit'    => '',
+				'offset'   => '',
+				'video'    => '',
 				'playlist' => '',
 			],
 			$atts,
 			'dmf_media'
 		);
 
-		$renderer = new Renderer();
-		$manualVideo = sanitize_text_field( (string) $atts['video'] );
+		$result = ( new MediaResolver() )->resolve( $atts );
 
-		if ( '' !== $manualVideo ) {
-			$video = ( new YoutubeVideo( $manualVideo ) )->getVideo();
-
-			if ( null === $video ) {
-				return '<p>No se pudo cargar el vídeo solicitado.</p>';
-			}
-
-			return $renderer->render( [ $video ] );
+		if ( $result->hasError() ) {
+			return sprintf(
+				'<p class="dmf-media-message">%s</p>',
+				esc_html( (string) $result->error )
+			);
 		}
 
-		$options = get_option( 'dmf_media_settings', [] );
-
-		$limit = ! empty( $atts['limit'] )
-			? (int) $atts['limit']
-			: (int) ( $options['limit'] ?? 6 );
-
-		$limit = max( 1, min( 20, $limit ) );
-
-		$offset = max( 0, (int) $atts['offset'] );
-
-		$playlist = sanitize_text_field( (string) $atts['playlist'] );
-
-		if ( '' !== $playlist ) {
-			$videos = ( new YoutubePlaylist( $playlist ) )->getVideos( $limit, $offset );
-
-			if ( null === $videos ) {
-				return '<p>No se ha podido cargar el contenido.</p>';
-			}
-
-			if ( empty( $videos ) ) {
-				return '<p>No hay vídeos disponibles.</p>';
-			}
-
-			return $renderer->render( $videos );
-		}
-
-		$channel = ! empty( $atts['channel'] )
-			? trim( (string) $atts['channel'] )
-			: ( $options['channel'] ?? '' );
-
-		if ( empty( $channel ) ) {
-			return '<p>Debes configurar un canal de YouTube en Ajustes → DMF Media.</p>';
-		}
-
-		$feed = new YoutubeFeed( $channel );
-
-		$videos = $feed->getVideos( $limit, $offset );
-
-		return $renderer->render( $videos );
+		return ( new Renderer() )->render( $result->videos );
 
 	}
 

@@ -55,7 +55,7 @@ YouTube handles such as `@channelname` are not supported as a Channel ID yet.
 
 ### Default video limit
 
-The default limit determines how many channel videos DMF Media displays when the shortcode does not include a `limit` attribute. The valid range is 1–20 videos.
+The default limit determines how many channel videos DMF Media displays when the shortcode does not include a `limit` attribute. The valid range is 1–15 videos, the maximum that YouTube delivers through its public RSS feed.
 
 ---
 
@@ -69,7 +69,7 @@ Use the configured Channel ID and default limit:
 [dmf_media]
 ```
 
-Override the number of videos for one shortcode, from 1 to 20:
+Override the number of videos for one shortcode, from 1 to 15:
 
 ```text
 [dmf_media limit="3"]
@@ -82,7 +82,7 @@ Omitir los vídeos más recientes disponibles en el feed RSS antes de aplicar el
 [dmf_media offset="2" limit="5"]
 ```
 
-`offset="1"` omite el vídeo más reciente; `offset="2"` omite los dos más recientes. Después se aplica `limit` para determinar cuántos vídeos se muestran. Este atributo funciona con feeds de canal y playlists, pero solo puede trabajar con los vídeos que YouTube proporciona mediante RSS. En las playlists públicas, el RSS proporciona actualmente un máximo de 15 vídeos. No se aplica al modo de vídeo manual.
+`offset="1"` omite el vídeo más reciente; `offset="2"` omite los dos más recientes. Después se aplica `limit` para determinar cuántos vídeos se muestran. Este atributo funciona con feeds de canal y playlists, pero solo puede trabajar con los vídeos que YouTube proporciona mediante RSS: actualmente un máximo de 15, tanto en canales como en playlists. No se aplica al modo de vídeo manual.
 
 Use another Channel ID without changing the default configuration:
 
@@ -98,11 +98,14 @@ Display videos from a public playlist by Playlist ID:
 [dmf_media playlist="PLxxxxxxxx"]
 ```
 
-You can also use a standard playlist URL:
+You can also use a standard playlist URL, including `m.youtube.com`, `watch?...&list=` and `embed/videoseries` forms:
 
 ```text
 [dmf_media playlist="https://www.youtube.com/playlist?list=PLxxxxxxxx"]
+[dmf_media playlist="https://www.youtube.com/watch?v=VIDEO_ID&list=PLxxxxxxxx"]
 ```
+
+Besides `PL` playlists, DMF Media accepts uploads (`UU`), likes (`LL`), favourites (`FL`), mixes (`RD`) and album (`OLAK5uy_`) playlist IDs.
 
 The `limit` attribute applies to playlists too. If it is omitted, DMF Media uses the configured default limit:
 
@@ -126,7 +129,7 @@ Display one specific video with a YouTube URL:
 [dmf_media video="https://www.youtube.com/watch?v=VIDEO_ID"]
 ```
 
-The `video` attribute also supports `youtu.be` and `shorts` URLs.
+The `video` attribute also supports `youtu.be`, `shorts`, `embed`, `live` and `m.youtube.com` URLs.
 
 ### Source priority
 
@@ -146,7 +149,7 @@ When `offset` is used, DMF Media skips that number of the most recent videos ava
 [dmf_media offset="1" limit="5"]
 ```
 
-For public playlists, YouTube currently provides a maximum of 15 videos through RSS. `offset` and `limit` can only work with those available videos.
+YouTube currently provides a maximum of 15 videos through RSS, both for channels and public playlists. `offset` and `limit` can only work with those available videos.
 
 ---
 

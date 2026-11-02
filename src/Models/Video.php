@@ -19,7 +19,7 @@ final class Video {
 		public readonly string $videoId,
 		public readonly string $url,
 		public readonly string $thumbnail,
-		public readonly DateTimeImmutable $publishedAt,
+		public readonly ?DateTimeImmutable $publishedAt,
 		public readonly string $description = '',
 	) {
 

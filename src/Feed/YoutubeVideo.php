@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace DMF\Media\Feed;
 
-use DateTimeImmutable;
 use DMF\Media\Models\Video;
+use DMF\Media\Support\YoutubeId;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -14,7 +14,8 @@ defined( 'ABSPATH' ) || exit;
  */
 final class YoutubeVideo {
 
-	private const CACHE_TTL = 1800;
+	private const CACHE_TTL   = 1800;
+	private const FAILURE_TTL = 300;
 
 	private string $value;
 
@@ -26,7 +27,7 @@ final class YoutubeVideo {
 
 	public function getVideo(): ?Video {
 
-		$videoId = $this->normalizeVideoId();
+		$videoId = YoutubeId::video( $this->value );
 
 		if ( null === $videoId ) {
 			return null;
@@ -43,55 +44,8 @@ final class YoutubeVideo {
 			videoId: $videoId,
 			url: $this->getCanonicalUrl( $videoId ),
 			thumbnail: $metadata['thumbnail'],
-			publishedAt: new DateTimeImmutable( '@0' )
+			publishedAt: null
 		);
-
-	}
-
-	private function normalizeVideoId(): ?string {
-
-		if ( $this->isValidVideoId( $this->value ) ) {
-			return $this->value;
-		}
-
-		$url = wp_parse_url( $this->value );
-
-		if ( ! is_array( $url ) || empty( $url['scheme'] ) || empty( $url['host'] ) ) {
-			return null;
-		}
-
-		if ( ! in_array( strtolower( $url['scheme'] ), [ 'http', 'https' ], true ) ) {
-			return null;
-		}
-
-		$host = strtolower( $url['host'] );
-		$host = preg_replace( '/^www\./', '', $host );
-
-		if ( 'youtu.be' === $host ) {
-			$pathParts = explode( '/', trim( $url['path'] ?? '', '/' ) );
-
-			return $this->getValidVideoId( $pathParts[0] ?? '' );
-		}
-
-		if ( 'youtube.com' !== $host ) {
-			return null;
-		}
-
-		$path = trim( $url['path'] ?? '', '/' );
-
-		if ( 'watch' === $path ) {
-			parse_str( $url['query'] ?? '', $query );
-
-			return $this->getValidVideoId( $query['v'] ?? '' );
-		}
-
-		$pathParts = explode( '/', $path );
-
-		if ( 'shorts' === ( $pathParts[0] ?? '' ) ) {
-			return $this->getValidVideoId( $pathParts[1] ?? '' );
-		}
-
-		return null;
 
 	}
 
@@ -103,6 +57,26 @@ final class YoutubeVideo {
 		if ( $this->isValidMetadata( $metadata ) ) {
 			return $metadata;
 		}
+
+		if ( '1' === get_transient( $this->getFailureKey( $videoId ) ) ) {
+			return null;
+		}
+
+		$metadata = $this->fetchMetadata( $videoId );
+
+		if ( null === $metadata ) {
+			set_transient( $this->getFailureKey( $videoId ), '1', self::FAILURE_TTL );
+
+			return null;
+		}
+
+		set_transient( $cacheKey, $metadata, self::CACHE_TTL );
+
+		return $metadata;
+
+	}
+
+	private function fetchMetadata( string $videoId ): ?array {
 
 		$response = wp_remote_get(
 			add_query_arg(
@@ -121,7 +95,14 @@ final class YoutubeVideo {
 			return null;
 		}
 
-		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+		$contentType = wp_remote_retrieve_header( $response, 'content-type' );
+
+		if ( is_string( $contentType ) && '' !== $contentType && ! str_contains( strtolower( $contentType ), 'json' ) ) {
+			return null;
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( (string) $body, true );
 
 		if ( ! is_array( $data ) || ! is_string( $data['title'] ?? null ) || '' === trim( $data['title'] ) ) {
 			return null;
@@ -133,20 +114,22 @@ final class YoutubeVideo {
 			$thumbnail = $this->getDefaultThumbnailUrl( $videoId );
 		}
 
-		$metadata = [
+		return [
 			'title'     => trim( $data['title'] ),
 			'thumbnail' => $thumbnail,
 		];
-
-		set_transient( $cacheKey, $metadata, self::CACHE_TTL );
-
-		return $metadata;
 
 	}
 
 	private function getCacheKey( string $videoId ): string {
 
 		return 'dmf_media_video_v1_' . md5( $videoId );
+
+	}
+
+	private function getFailureKey( string $videoId ): string {
+
+		return 'dmf_media_video_fail_v1_' . md5( $videoId );
 
 	}
 
@@ -159,22 +142,6 @@ final class YoutubeVideo {
 	private function getDefaultThumbnailUrl( string $videoId ): string {
 
 		return 'https://i.ytimg.com/vi/' . rawurlencode( $videoId ) . '/hqdefault.jpg';
-
-	}
-
-	private function getValidVideoId( mixed $value ): ?string {
-
-		if ( ! is_string( $value ) || ! $this->isValidVideoId( $value ) ) {
-			return null;
-		}
-
-		return $value;
-
-	}
-
-	private function isValidVideoId( string $videoId ): bool {
-
-		return 1 === preg_match( '/^[A-Za-z0-9_-]{11}$/', $videoId );
 
 	}
 

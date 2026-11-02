@@ -25,7 +25,7 @@ final class Renderer {
 		if ( empty( $videos ) ) {
 			?>
 
-			<p>No hay vídeos disponibles.</p>
+			<p class="dmf-media-message">No hay vídeos disponibles.</p>
 
 			<?php
 
@@ -128,11 +128,11 @@ final class Renderer {
 		<div
 			id="dmf-video-modal"
 			class="dmf-video-modal"
-				role="dialog"
-				aria-modal="true"
-				aria-label="<?php esc_attr_e( 'Reproductor de vídeo', 'dmf-media' ); ?>"
-				aria-hidden="true"
-				tabindex="-1"
+			role="dialog"
+			aria-modal="true"
+			aria-label="<?php echo esc_attr( 'Reproductor de vídeo' ); ?>"
+			aria-hidden="true"
+			tabindex="-1"
 			hidden>
 
 			<div class="dmf-video-modal__overlay"></div>
@@ -142,7 +142,7 @@ final class Renderer {
 				<button
 					type="button"
 					class="dmf-video-modal__close"
-					aria-label="<?php esc_attr_e( 'Cerrar vídeo', 'dmf-media' ); ?>">
+					aria-label="<?php echo esc_attr( 'Cerrar vídeo' ); ?>">
 
 					&times;
 

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace DMF\Media\Admin;
 
+use DMF\Media\Resolver\MediaResolver;
+use DMF\Media\Support\YoutubeId;
+
 defined( 'ABSPATH' ) || exit;
 
 final class Settings {
@@ -24,7 +27,15 @@ final class Settings {
 
 		register_setting(
 			'dmf_media_group',
-			'dmf_media_settings'
+			'dmf_media_settings',
+			[
+				'type'              => 'array',
+				'default'           => [
+					'channel' => '',
+					'limit'   => MediaResolver::DEFAULT_LIMIT,
+				],
+				'sanitize_callback' => [ $this, 'sanitizeSettings' ],
+			]
 		);
 
 		add_settings_section(
@@ -52,9 +63,70 @@ final class Settings {
 
 	}
 
+	/**
+	 * Valida y normaliza los ajustes antes de guardarlos.
+	 *
+	 * Si el Channel ID no es válido se conserva el valor anterior y se muestra
+	 * un aviso, para no perder la configuración por un error de tecleo.
+	 *
+	 * @param mixed $input Valor enviado desde el formulario.
+	 * @return array<string, mixed>
+	 */
+	public function sanitizeSettings( mixed $input ): array {
+
+		$input   = is_array( $input ) ? $input : [];
+		$current = get_option( 'dmf_media_settings', [] );
+		$current = is_array( $current ) ? $current : [];
+
+		$channel = isset( $current['channel'] ) && is_string( $current['channel'] )
+			? $current['channel']
+			: '';
+
+		if ( array_key_exists( 'channel', $input ) ) {
+			if ( ! is_string( $input['channel'] ) ) {
+				add_settings_error(
+					'dmf_media_settings',
+					'dmf_media_invalid_channel',
+					'El Channel ID no es válido. Debe empezar por «UC» y tener 24 caracteres, por ejemplo UCfoi0nD0pW_ipZOldgTrp4A.'
+				);
+			} else {
+				$channelRaw = trim( sanitize_text_field( $input['channel'] ) );
+
+				if ( '' === $channelRaw ) {
+					$channel = '';
+				} else {
+					$channelId = YoutubeId::channel( $channelRaw );
+
+					if ( null === $channelId ) {
+						add_settings_error(
+							'dmf_media_settings',
+							'dmf_media_invalid_channel',
+							'El Channel ID no es válido. Debe empezar por «UC» y tener 24 caracteres, por ejemplo UCfoi0nD0pW_ipZOldgTrp4A.'
+						);
+					} else {
+						$channel = $channelId;
+					}
+				}
+			}
+		}
+
+		$limitRaw = $input['limit'] ?? null;
+		$limit    = is_numeric( $limitRaw )
+			? (int) $limitRaw
+			: (int) ( $current['limit'] ?? MediaResolver::DEFAULT_LIMIT );
+
+		return [
+			'channel' => $channel,
+			'limit'   => max( 1, min( MediaResolver::MAX_LIMIT, $limit ) ),
+		];
+
+	}
+
 	public function channelField(): void {
 
 		$options = get_option( 'dmf_media_settings', [] );
+		$options = is_array( $options ) ? $options : [];
+		$channel = isset( $options['channel'] ) && is_string( $options['channel'] ) ? $options['channel'] : '';
 
 		?>
 
@@ -62,7 +134,7 @@ final class Settings {
 			type="text"
 			class="regular-text"
 			name="dmf_media_settings[channel]"
-			value="<?php echo esc_attr( $options['channel'] ?? '' ); ?>"
+			value="<?php echo esc_attr( $channel ); ?>"
 			placeholder="UCxxxxxxxxxxxxxxxx">
 
 		<p class="description">
@@ -70,7 +142,7 @@ final class Settings {
 		</p>
 
 		<p class="description">
-			Puedes localizarlo en una URL de YouTube Studio o de canal que contenga <code>/channel/UC...</code>. Actualmente, <code>@nombrecanal</code> no está admitido como Channel ID.
+			Puedes pegar el Channel ID o una URL de canal que contenga <code>/channel/UC...</code>. Actualmente, <code>@nombrecanal</code> no está admitido.
 		</p>
 
 		<?php
@@ -80,18 +152,20 @@ final class Settings {
 	public function limitField(): void {
 
 		$options = get_option( 'dmf_media_settings', [] );
+		$options = is_array( $options ) ? $options : [];
+		$limit   = isset( $options['limit'] ) && is_numeric( $options['limit'] ) ? (int) $options['limit'] : MediaResolver::DEFAULT_LIMIT;
 
 		?>
 
 		<input
 			type="number"
 			min="1"
-			max="20"
+			max="<?php echo esc_attr( (string) MediaResolver::MAX_LIMIT ); ?>"
 			name="dmf_media_settings[limit]"
-			value="<?php echo esc_attr( $options['limit'] ?? 6 ); ?>">
+			value="<?php echo esc_attr( (string) $limit ); ?>">
 
 		<p class="description">
-			Número de vídeos que se muestran por defecto, entre 1 y 20. El atributo <code>limit</code> del shortcode puede sobrescribir este valor.
+			Número de vídeos que se muestran por defecto, entre 1 y <?php echo esc_html( (string) MediaResolver::MAX_LIMIT ); ?>. El atributo <code>limit</code> del shortcode puede sobrescribir este valor.
 		</p>
 
 		<?php
@@ -155,7 +229,7 @@ final class Settings {
 
 						<td><code>[dmf_media limit="3"]</code></td>
 
-						<td>Muestra tres vídeos. El atributo <code>limit</code> permite definir entre 1 y 20 vídeos para ese shortcode.</td>
+						<td>Muestra tres vídeos. El atributo <code>limit</code> permite definir entre 1 y 15 vídeos para ese shortcode.</td>
 
 					</tr>
 
@@ -215,7 +289,7 @@ final class Settings {
 			</table>
 
 			<p class="description" style="margin-top:12px; max-width:900px;">
-				El feed RSS público de YouTube proporciona actualmente un máximo de 15 vídeos por playlist. El atributo <code>limit</code> puede reducir ese número, pero no puede mostrar más vídeos de los que proporciona YouTube mediante RSS.
+				El feed RSS público de YouTube proporciona actualmente un máximo de 15 vídeos, tanto en canales como en playlists. El atributo <code>limit</code> puede reducir ese número, pero no puede mostrar más vídeos de los que proporciona YouTube mediante RSS.
 			</p>
 
 			<h3>Vídeo manual</h3>
@@ -270,7 +344,7 @@ final class Settings {
 			</div>
 
 			<p class="description" style="margin-top:12px; max-width:900px;">
-				El atributo <code>offset</code> funciona con feeds de canal y playlists. Se aplica antes que <code>limit</code> y no afecta al modo de vídeo manual. En las playlists públicas, YouTube proporciona actualmente un máximo de 15 vídeos mediante RSS.
+				El atributo <code>offset</code> funciona con feeds de canal y playlists. Se aplica antes que <code>limit</code> y no afecta al modo de vídeo manual. YouTube proporciona actualmente un máximo de 15 vídeos mediante RSS, tanto en canales como en playlists.
 			</p>
 
 			<div class="notice notice-info inline" style="margin-top:20px;">

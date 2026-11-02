@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace DMF\Media\Feed;
 
+use DMF\Media\Models\Video;
+use DMF\Media\Support\YoutubeId;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -11,7 +14,8 @@ defined( 'ABSPATH' ) || exit;
  */
 final class YoutubePlaylist {
 
-	private const CACHE_TTL = 1800;
+	private const CACHE_TTL   = 1800;
+	private const FAILURE_TTL = 300;
 
 	private string $value;
 
@@ -22,11 +26,11 @@ final class YoutubePlaylist {
 	}
 
 	/**
-	 * @return array<int, \DMF\Media\Models\Video>|null Null si la playlist no se pudo cargar.
+	 * @return array<int, Video>|null Null si la playlist no se pudo cargar.
 	 */
 	public function getVideos( int $limit = 6, int $offset = 0 ): ?array {
 
-		$playlistId = $this->normalizePlaylistId();
+		$playlistId = YoutubeId::playlist( $this->value );
 
 		if ( null === $playlistId ) {
 			return null;
@@ -44,43 +48,34 @@ final class YoutubePlaylist {
 
 	}
 
-	private function normalizePlaylistId(): ?string {
-
-		if ( $this->isValidPlaylistId( $this->value ) ) {
-			return $this->value;
-		}
-
-		$url = wp_parse_url( $this->value );
-
-		if ( ! is_array( $url ) || empty( $url['scheme'] ) || empty( $url['host'] ) ) {
-			return null;
-		}
-
-		if ( ! in_array( strtolower( $url['scheme'] ), [ 'http', 'https' ], true ) ) {
-			return null;
-		}
-
-		$host = strtolower( $url['host'] );
-		$host = preg_replace( '/^www\./', '', $host );
-
-		if ( 'youtube.com' !== $host || 'playlist' !== trim( $url['path'] ?? '', '/' ) ) {
-			return null;
-		}
-
-		parse_str( $url['query'] ?? '', $query );
-
-		return $this->getValidPlaylistId( $query['list'] ?? '' );
-
-	}
-
 	private function getFeedXml( string $playlistId ): ?string {
 
 		$cacheKey = $this->getCacheKey( $playlistId );
-		$xml = get_transient( $cacheKey );
+		$cached   = get_transient( $cacheKey );
 
-		if ( is_string( $xml ) && '' !== $xml ) {
-			return $xml;
+		if ( is_string( $cached ) && '' !== $cached ) {
+			return $cached;
 		}
+
+		if ( '1' === get_transient( $this->getFailureKey( $playlistId ) ) ) {
+			return null;
+		}
+
+		$body = $this->fetchFeed( $playlistId );
+
+		if ( null === $body ) {
+			set_transient( $this->getFailureKey( $playlistId ), '1', self::FAILURE_TTL );
+
+			return null;
+		}
+
+		set_transient( $cacheKey, $body, self::CACHE_TTL );
+
+		return $body;
+
+	}
+
+	private function fetchFeed( string $playlistId ): ?string {
 
 		$response = wp_remote_get(
 			$this->getFeedUrl( $playlistId ),
@@ -93,13 +88,21 @@ final class YoutubePlaylist {
 			return null;
 		}
 
+		$contentType = wp_remote_retrieve_header( $response, 'content-type' );
+
+		if ( is_string( $contentType ) && '' !== $contentType && ! str_contains( strtolower( $contentType ), 'xml' ) ) {
+			return null;
+		}
+
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( ! is_string( $body ) || '' === trim( $body ) ) {
 			return null;
 		}
 
-		set_transient( $cacheKey, $body, self::CACHE_TTL );
+		if ( ! ( new YoutubeRssParser() )->isValid( $body ) ) {
+			return null;
+		}
 
 		return $body;
 
@@ -120,19 +123,9 @@ final class YoutubePlaylist {
 
 	}
 
-	private function getValidPlaylistId( mixed $value ): ?string {
+	private function getFailureKey( string $playlistId ): string {
 
-		if ( ! is_string( $value ) || ! $this->isValidPlaylistId( $value ) ) {
-			return null;
-		}
-
-		return $value;
-
-	}
-
-	private function isValidPlaylistId( string $playlistId ): bool {
-
-		return 1 === preg_match( '/^PL[A-Za-z0-9_-]+$/', $playlistId );
+		return 'dmf_media_playlist_fail_v1_' . md5( $playlistId );
 
 	}
 

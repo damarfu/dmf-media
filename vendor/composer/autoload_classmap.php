@@ -7,4 +7,16 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'DMF\\Media\\Admin\\Settings' => $baseDir . '/src/Admin/Settings.php',
+    'DMF\\Media\\Core\\Plugin' => $baseDir . '/src/Core/Plugin.php',
+    'DMF\\Media\\Feed\\YoutubeFeed' => $baseDir . '/src/Feed/YoutubeFeed.php',
+    'DMF\\Media\\Feed\\YoutubePlaylist' => $baseDir . '/src/Feed/YoutubePlaylist.php',
+    'DMF\\Media\\Feed\\YoutubeRssParser' => $baseDir . '/src/Feed/YoutubeRssParser.php',
+    'DMF\\Media\\Feed\\YoutubeVideo' => $baseDir . '/src/Feed/YoutubeVideo.php',
+    'DMF\\Media\\Models\\Video' => $baseDir . '/src/Models/Video.php',
+    'DMF\\Media\\Render\\Renderer' => $baseDir . '/src/Render/Renderer.php',
+    'DMF\\Media\\Resolver\\MediaResolver' => $baseDir . '/src/Resolver/MediaResolver.php',
+    'DMF\\Media\\Resolver\\MediaResult' => $baseDir . '/src/Resolver/MediaResult.php',
+    'DMF\\Media\\Shortcodes\\MediaShortcode' => $baseDir . '/src/Shortcodes/MediaShortcode.php',
+    'DMF\\Media\\Support\\YoutubeId' => $baseDir . '/src/Support/YoutubeId.php',
 );
