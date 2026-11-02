@@ -29,6 +29,7 @@ class ComposerStaticInitf0c9f4c7dc89724d9dfec8456799f57c
         'DMF\\Media\\Feed\\YoutubeRssParser' => __DIR__ . '/../..' . '/src/Feed/YoutubeRssParser.php',
         'DMF\\Media\\Feed\\YoutubeVideo' => __DIR__ . '/../..' . '/src/Feed/YoutubeVideo.php',
         'DMF\\Media\\Models\\Video' => __DIR__ . '/../..' . '/src/Models/Video.php',
+        'DMF\\Media\\Render\\Modal' => __DIR__ . '/../..' . '/src/Render/Modal.php',
         'DMF\\Media\\Render\\Renderer' => __DIR__ . '/../..' . '/src/Render/Renderer.php',
         'DMF\\Media\\Resolver\\MediaResolver' => __DIR__ . '/../..' . '/src/Resolver/MediaResolver.php',
         'DMF\\Media\\Resolver\\MediaResult' => __DIR__ . '/../..' . '/src/Resolver/MediaResult.php',

@@ -11,14 +11,11 @@ defined( 'ABSPATH' ) || exit;
 final class Renderer {
 
 	/**
-	 * Evita renderizar más de un modal cuando hay varios shortcodes en la página.
-	 */
-	private static bool $modalRendered = false;
-
-	/**
-	 * @param Video[] $videos
+	 * @param array<int, Video> $videos
 	 */
 	public function render( array $videos ): string {
+
+		Modal::require();
 
 		ob_start();
 
@@ -42,14 +39,11 @@ final class Renderer {
 
 			<?php foreach ( $videos as $video ) : ?>
 
-				<?php echo $this->renderCard( $video ); ?>
+				<?php echo $this->renderCard( $video ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 			<?php endforeach; ?>
 
 		</div>
-
-
-		<?php echo $this->renderModal(); ?>
 
 		<?php
 
@@ -74,8 +68,9 @@ final class Renderer {
 
 					<img
 						src="<?php echo esc_url( $video->thumbnail ); ?>"
-						alt="<?php echo esc_attr( $video->title ); ?>"
-						loading="lazy">
+						alt=""
+						loading="lazy"
+						decoding="async">
 
 					<div class="dmf-video-overlay">
 
@@ -107,56 +102,6 @@ final class Renderer {
 			</a>
 
 		</article>
-
-		<?php
-
-		return (string) ob_get_clean();
-
-	}
-
-	private function renderModal(): string {
-
-		if ( self::$modalRendered ) {
-			return '';
-		}
-
-		self::$modalRendered = true;
-
-		ob_start();
-		?>
-
-		<div
-			id="dmf-video-modal"
-			class="dmf-video-modal"
-			role="dialog"
-			aria-modal="true"
-			aria-label="<?php echo esc_attr( 'Reproductor de vídeo' ); ?>"
-			aria-hidden="true"
-			tabindex="-1"
-			hidden>
-
-			<div class="dmf-video-modal__overlay"></div>
-
-			<div class="dmf-video-modal__dialog">
-
-				<button
-					type="button"
-					class="dmf-video-modal__close"
-					aria-label="<?php echo esc_attr( 'Cerrar vídeo' ); ?>">
-
-					&times;
-
-				</button>
-
-				<div
-					id="dmf-video-player"
-					class="dmf-video-player">
-
-				</div>
-
-			</div>
-
-		</div>
 
 		<?php
 

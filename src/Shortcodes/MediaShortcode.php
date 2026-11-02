@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DMF\Media\Shortcodes;
 
+use DMF\Media\Core\Plugin;
 use DMF\Media\Render\Renderer;
 use DMF\Media\Resolver\MediaResolver;
 
@@ -21,6 +22,8 @@ final class MediaShortcode {
 	}
 
 	public function render( array $atts = [] ): string {
+
+		Plugin::enqueueAssets();
 
 		$atts = shortcode_atts(
 			[

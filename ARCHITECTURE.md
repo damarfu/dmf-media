@@ -174,6 +174,11 @@ No obtiene datos ni consulta opciones.
 Recibe un array de objetos Video y produce el marcado, escapando cada valor con las
 funciones de WordPress.
 
+El modal de reproducción no forma parte de ese HTML. `Modal` lo imprime una sola vez
+desde `wp_footer`, como hijo directo de `<body>`, para que ningún contenedor del tema
+pueda recortarlo con `overflow` o atraparlo en su contexto de apilamiento. El shortcode
+solo marca que hace falta mediante `Modal::require()`.
+
 ---
 
 ## Shortcodes

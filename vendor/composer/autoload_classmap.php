@@ -14,6 +14,7 @@ return array(
     'DMF\\Media\\Feed\\YoutubeRssParser' => $baseDir . '/src/Feed/YoutubeRssParser.php',
     'DMF\\Media\\Feed\\YoutubeVideo' => $baseDir . '/src/Feed/YoutubeVideo.php',
     'DMF\\Media\\Models\\Video' => $baseDir . '/src/Models/Video.php',
+    'DMF\\Media\\Render\\Modal' => $baseDir . '/src/Render/Modal.php',
     'DMF\\Media\\Render\\Renderer' => $baseDir . '/src/Render/Renderer.php',
     'DMF\\Media\\Resolver\\MediaResolver' => $baseDir . '/src/Resolver/MediaResolver.php',
     'DMF\\Media\\Resolver\\MediaResult' => $baseDir . '/src/Resolver/MediaResult.php',

@@ -2,20 +2,26 @@
  * DMF Media Frontend
  */
 
-.dmf-media-single{
+.dmf-media-single {
 
 	width:100%;
 
 }
 
-.dmf-media-grid{
+.dmf-media-grid {
 
 	display:grid;
 
 	grid-template-columns:
-		repeat(auto-fit,minmax(320px,1fr));
+		repeat(auto-fit,minmax(min(100%,320px),1fr));
 
 	gap:1.5rem;
+
+}
+
+.dmf-media-message {
+
+	margin:0 0 1rem;
 
 }
 
@@ -30,6 +36,13 @@
 	display: block;
 	color: inherit;
 	text-decoration: none;
+}
+
+.dmf-video-link:focus-visible {
+
+	outline: 3px solid #fff;
+	outline-offset: -3px;
+
 }
 
 .dmf-video-thumb {
@@ -99,7 +112,8 @@
 	display: block;
 }
 
-.dmf-video-link:hover .dmf-video-play {
+.dmf-video-link:hover .dmf-video-play,
+.dmf-video-link:focus-visible .dmf-video-play {
 	transform:
 		translate(-50%, -50%)
 		scale(1.04);
@@ -127,6 +141,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding: 3rem 1rem;
+	box-sizing: border-box;
 }
 
 .dmf-video-modal[hidden] {
@@ -145,9 +161,13 @@
 
 	z-index: 2;
 
-	width: min(1100px, 90vw);
+	width: min(1100px, 100%, calc((100vh - 6rem) * 16 / 9));
+
+	max-height: 100%;
 
 	aspect-ratio: 16 / 9;
+
+	box-sizing: border-box;
 
 	background: #000;
 
@@ -165,6 +185,8 @@
 	place-items: center;
 	width: 100%;
 	height: 100%;
+	border-radius: 12px;
+	overflow: hidden;
 	color: #fff;
 }
 
@@ -220,6 +242,15 @@
 	cursor: pointer;
 }
 
+.dmf-video-player__close-error:focus-visible,
+.dmf-video-modal__close:focus-visible {
+
+	outline: 2px solid #fff;
+
+	outline-offset: 2px;
+
+}
+
 @keyframes dmf-video-spinner {
 	to {
 		transform: rotate(360deg);
@@ -230,7 +261,7 @@
 
 	position: absolute;
 
-	top: -38px;
+	top: -2.375rem;
 
 	right: 0;
 
@@ -270,8 +301,25 @@ body.dmf-modal-open {
 }
 
 @media (max-width:768px){
-	.dmf-video-modal__dialog{
-		width:95vw;
+
+	.dmf-video-modal{
+		padding:3rem .75rem;
+	}
+
+}
+
+@media (prefers-reduced-motion: reduce){
+
+	.dmf-video-thumb img,
+	.dmf-video-play,
+	.dmf-video-overlay,
+	.dmf-video-modal__close,
+	.dmf-video-player iframe{
+		transition:none;
+	}
+
+	.dmf-video-player__spinner{
+		animation-duration:2s;
 	}
 
 }
