@@ -58,6 +58,8 @@ composer test
 
 The suite covers the RSS parser, YouTube ID normalization, the resolver (limit, offset, caching and error paths), settings sanitization and block rendering.
 
+> **Nota:** `.git/`, `.git-bak/`, `dist/` y `tests/` son de desarrollo. Para instalar en una web, usa el ZIP de la release o copia solo los archivos del plugin; no copies `.git` ni `.git-bak`.
+
 ---
 
 ## Configuration
