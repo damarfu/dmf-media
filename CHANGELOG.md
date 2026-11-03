@@ -7,7 +7,7 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 
 ---
 
-## [0.3.0] - 2026-11-02
+## [0.3.0] - 2026-11-03
 
 ### Añadido
 - Bloque de Gutenberg `dmf/media`, dinámico, con vista previa en el editor y los mismos datos que el shortcode.
@@ -20,6 +20,11 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 - El shortcode y el bloque comparten `MediaResolver`, `Renderer` y el modal; el shortcode sigue disponible y no se deprecia.
 - El bloque puede colocarse dentro de contenedores y grids de GenerateBlocks y funciona con cualquier tema.
 - Sin dependencias de JavaScript ni proceso de build: el bloque usa las APIs globales de WordPress.
+
+### Calidad
+- `uninstall.php` elimina la opción de ajustes y los transients del plugin al desinstalarlo.
+- Suite de pruebas sin dependencias (`php tests/run.php` o `composer test`) para parser, IDs, resolver, ajustes, renderer y bloque.
+- Feed de ejemplo en `tests/fixtures/feed.xml` y dobles de las funciones de WordPress en `tests/bootstrap.php`.
 
 ---
 

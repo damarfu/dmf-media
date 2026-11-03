@@ -38,10 +38,16 @@ dmf-media/
 │   ├── Shortcodes/
 │   └── Support/
 │
+├── tests/
+│   ├── fixtures/
+│   ├── bootstrap.php
+│   └── *Test.php
+│
 ├── vendor/
 │
 ├── composer.json
 ├── dmf-media.php
+├── uninstall.php
 └── README.md
 ```
 
@@ -272,6 +278,19 @@ Las futuras plataformas deberán añadirse implementando nuevas clases dentro de
 - TikTok
 - Instagram
 - múltiples proveedores multimedia
+
+---
+
+# Pruebas
+
+`tests/run.php` ejecuta la suite sin dependencias externas: no necesita WordPress ni paquetes de Composer. `tests/bootstrap.php` define dobles de las funciones de WordPress que usa el plugin (transients, HTTP, opciones, escape) y un mini framework de aserciones. Los tests cubren el parser RSS, `YoutubeId`, `MediaResolver`, `Settings`, `Renderer` y `MediaBlock`.
+
+```bash
+php tests/run.php
+composer test
+```
+
+`tests/fixtures/feed.xml` es un feed de YouTube reducido que se usa en las pruebas. `uninstall.php` borra la opción de ajustes y los transients del plugin cuando WordPress elimina el plugin.
 
 ---
 

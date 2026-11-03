@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://www.youtube.com/xml/schemas/2015">
+	<title>Canal de prueba</title>
+	<entry>
+		<id>yt:video:AAAAAAAAAAA</id>
+		<yt:videoId>AAAAAAAAAAA</yt:videoId>
+		<yt:channelId>UCfoi0nD0pW_ipZOldgTrp4A</yt:channelId>
+		<title>Primero &amp; directo</title>
+		<link rel="alternate" href="https://www.youtube.com/watch?v=AAAAAAAAAAA"/>
+		<published>2026-10-01T10:00:00+00:00</published>
+		<media:group>
+			<media:title>Primero &amp; directo</media:title>
+			<media:thumbnail url="https://i2.ytimg.com/vi/AAAAAAAAAAA/hqdefault.jpg" width="480" height="360"/>
+			<media:description>Descripción del primer vídeo</media:description>
+		</media:group>
+	</entry>
+	<entry>
+		<id>yt:video:BBBBBBBBBBB</id>
+		<yt:videoId>BBBBBBBBBBB</yt:videoId>
+		<yt:channelId>UCfoi0nD0pW_ipZOldgTrp4A</yt:channelId>
+		<title>Segundo vídeo</title>
+		<link rel="alternate" href="https://www.youtube.com/watch?v=BBBBBBBBBBB"/>
+		<published>2026-09-01T10:00:00+00:00</published>
+		<media:group>
+			<media:title>Segundo vídeo</media:title>
+			<media:thumbnail url="https://i2.ytimg.com/vi/BBBBBBBBBBB/hqdefault.jpg"/>
+			<media:description>Descripción del segundo vídeo</media:description>
+		</media:group>
+	</entry>
+	<entry>
+		<id>yt:video:CCCCCCCCCCC</id>
+		<yt:videoId>CCCCCCCCCCC</yt:videoId>
+		<yt:channelId>UCfoi0nD0pW_ipZOldgTrp4A</yt:channelId>
+		<title>Tercero</title>
+		<link rel="alternate" href="https://www.youtube.com/watch?v=CCCCCCCCCCC"/>
+		<published>2026-08-01T10:00:00+00:00</published>
+		<media:group>
+			<media:title>Tercero</media:title>
+			<media:thumbnail url="https://i2.ytimg.com/vi/CCCCCCCCCCC/hqdefault.jpg"/>
+			<media:description>Descripción del tercer vídeo</media:description>
+		</media:group>
+	</entry>
+</feed>

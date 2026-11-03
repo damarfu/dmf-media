@@ -40,6 +40,26 @@ DMF Media is designed to integrate perfectly with GeneratePress and GenerateBloc
 
 ---
 
+## Uninstall
+
+Deleting the plugin from **Plugins → Delete** removes the `dmf_media_settings` option and the plugin transients (feeds, playlists and video metadata). Deactivating the plugin keeps the configuration and the cache.
+
+---
+
+## Development
+
+The plugin includes a small test suite with no external dependencies. It stubs the WordPress functions used by the plugin, so you do not need a WordPress installation or extra Composer packages:
+
+```bash
+php tests/run.php
+# or
+composer test
+```
+
+The suite covers the RSS parser, YouTube ID normalization, the resolver (limit, offset, caching and error paths), settings sanitization and block rendering.
+
+---
+
 ## Configuration
 
 ### Channel ID

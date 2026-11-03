@@ -11,6 +11,9 @@
             "DMF\\Media\\": "src/"
         }
     },
+    "scripts": {
+        "test": "php tests/run.php"
+    },
     "config": {
         "optimize-autoloader": true
     }
