@@ -23,13 +23,15 @@ Completado:
 - [ ] Aceptar `@nombreCanal` además del Channel ID. Pospuesto: una implementación fiable requiere YouTube Data API v3 y una API key.
 - [x] Mejorar accesibilidad del modal: foco, tabulación y retorno al elemento activador.
 
-## v0.3 – Customization
+## v0.3 – Gutenberg
 
-- [ ] Atributos de shortcode adicionales para controlar la presentación.
-- [ ] Personalización de relaciones de aspecto y estilos de tarjeta.
+- [x] Bloque nativo de Gutenberg `dmf/media`, dinámico y con vista previa en el editor.
+- [x] Inspector con origen (canal, playlist o vídeo), límite y offset.
+- [x] Compatibilidad con contenedores y grids de GenerateBlocks.
+- [x] Alineación ancha/completa, ancla y clase personalizada.
+- [ ] Atributos de presentación (relación de aspecto, estilos de tarjeta).
+- [ ] Sistema de plantillas y hooks para desarrolladores.
 
 ## Futuro
 
-- [ ] Bloque nativo de Gutenberg.
 - [ ] Vimeo y otras fuentes multimedia.
-- [ ] Sistema de plantillas y hooks para desarrolladores.

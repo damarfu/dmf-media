@@ -23,6 +23,7 @@ class ComposerStaticInitf0c9f4c7dc89724d9dfec8456799f57c
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'DMF\\Media\\Admin\\Settings' => __DIR__ . '/../..' . '/src/Admin/Settings.php',
+        'DMF\\Media\\Blocks\\MediaBlock' => __DIR__ . '/../..' . '/src/Blocks/MediaBlock.php',
         'DMF\\Media\\Core\\Plugin' => __DIR__ . '/../..' . '/src/Core/Plugin.php',
         'DMF\\Media\\Feed\\YoutubeFeed' => __DIR__ . '/../..' . '/src/Feed/YoutubeFeed.php',
         'DMF\\Media\\Feed\\YoutubePlaylist' => __DIR__ . '/../..' . '/src/Feed/YoutubePlaylist.php',

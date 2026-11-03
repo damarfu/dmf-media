@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'DMF\\Media\\Admin\\Settings' => $baseDir . '/src/Admin/Settings.php',
+    'DMF\\Media\\Blocks\\MediaBlock' => $baseDir . '/src/Blocks/MediaBlock.php',
     'DMF\\Media\\Core\\Plugin' => $baseDir . '/src/Core/Plugin.php',
     'DMF\\Media\\Feed\\YoutubeFeed' => $baseDir . '/src/Feed/YoutubeFeed.php',
     'DMF\\Media\\Feed\\YoutubePlaylist' => $baseDir . '/src/Feed/YoutubePlaylist.php',

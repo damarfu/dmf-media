@@ -35,7 +35,7 @@ final class MediaResolver {
 		}
 
 		$limit  = $this->resolveLimit( $args, $options );
-		$offset = max( 0, (int) $this->argument( $args, 'offset' ) );
+		$offset = $this->resolveOffset( $args );
 
 		$playlist = $this->argument( $args, 'playlist' );
 
@@ -129,6 +129,17 @@ final class MediaResolver {
 		$limit  = is_numeric( $stored ) ? (int) $stored : self::DEFAULT_LIMIT;
 
 		return max( 1, min( self::MAX_LIMIT, $limit ) );
+
+	}
+
+	/**
+	 * @param array<string, mixed> $args
+	 */
+	private function resolveOffset( array $args ): int {
+
+		$raw = $args['offset'] ?? 0;
+
+		return is_numeric( $raw ) ? max( 0, (int) $raw ) : 0;
 
 	}
 

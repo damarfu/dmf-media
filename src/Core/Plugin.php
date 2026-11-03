@@ -26,6 +26,11 @@ final class Plugin {
 		);
 
 		add_action(
+			'init',
+			[ self::class, 'registerBlock' ]
+		);
+
+		add_action(
 			'admin_menu',
 			[ $settings, 'addMenu' ]
 		);
@@ -49,6 +54,77 @@ final class Plugin {
 			'wp_footer',
 			[ Modal::class, 'render' ],
 			10
+		);
+
+	}
+
+	/**
+	 * Registra el bloque dmf/media y sus assets de editor.
+	 *
+	 * El bloque es dinámico (block.json + render.php) y reutiliza el mismo
+	 * MediaResolver y Renderer que el shortcode.
+	 */
+	public static function registerBlock(): void {
+
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
+
+		wp_register_script(
+			'dmf-media-block-editor',
+			plugins_url( 'blocks/media/index.js', DMF_MEDIA_FILE ),
+			[
+				'wp-blocks',
+				'wp-element',
+				'wp-components',
+				'wp-block-editor',
+				'wp-server-side-render',
+			],
+			DMF_MEDIA_VERSION,
+			true
+		);
+
+		wp_register_style(
+			'dmf-media-block-editor',
+			plugins_url( 'assets/css/frontend.css', DMF_MEDIA_FILE ),
+			[],
+			DMF_MEDIA_VERSION
+		);
+
+		wp_register_style(
+			'dmf-media-block-editor-preview',
+			plugins_url( 'blocks/media/editor.css', DMF_MEDIA_FILE ),
+			[ 'dmf-media-block-editor' ],
+			DMF_MEDIA_VERSION
+		);
+
+		$block = register_block_type( DMF_MEDIA_PATH . 'blocks/media/block.json' );
+
+		if ( ! $block instanceof \WP_Block_Type ) {
+			return;
+		}
+
+		$options = get_option( 'dmf_media_settings', [] );
+		$options = is_array( $options ) ? $options : [];
+
+		$hasDefaultChannel = isset( $options['channel'] )
+			&& is_string( $options['channel'] )
+			&& '' !== trim( $options['channel'] );
+
+		wp_localize_script(
+			'dmf-media-block-editor',
+			'dmfMediaBlock',
+			[
+				'name'              => $block->name,
+				'title'             => $block->title,
+				'description'       => $block->description,
+				'category'          => $block->category,
+				'icon'              => $block->icon,
+				'keywords'          => $block->keywords,
+				'supports'          => $block->supports,
+				'attributes'        => $block->attributes,
+				'hasDefaultChannel' => $hasDefaultChannel,
+			]
 		);
 
 	}

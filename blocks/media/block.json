@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "dmf/media",
+	"title": "DMF Media",
+	"category": "media",
+	"icon": "video-alt2",
+	"description": "Muestra los vídeos de un canal de YouTube, una playlist pública o un vídeo concreto.",
+	"keywords": [ "youtube", "vídeo", "video", "playlist", "feed" ],
+	"textdomain": "dmf-media",
+	"supports": {
+		"align": [ "wide", "full" ],
+		"anchor": true,
+		"className": true,
+		"html": false
+	},
+	"attributes": {
+		"source": {
+			"type": "string",
+			"default": "default"
+		},
+		"channel": {
+			"type": "string",
+			"default": ""
+		},
+		"playlist": {
+			"type": "string",
+			"default": ""
+		},
+		"video": {
+			"type": "string",
+			"default": ""
+		},
+		"limit": {
+			"type": "number",
+			"default": 0
+		},
+		"offset": {
+			"type": "number",
+			"default": 0
+		}
+	},
+	"editorScript": "dmf-media-block-editor",
+	"editorStyle": [ "dmf-media-block-editor", "dmf-media-block-editor-preview" ],
+	"render": "file:./render.php"
+}

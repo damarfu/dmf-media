@@ -1,0 +1,23 @@
+/*
+ * Ajustes del bloque DMF Media dentro del editor.
+ */
+
+.dmf-media-block__preview {
+	min-height: 4rem;
+}
+
+/* La vista previa no debe navegar al hacer clic en una tarjeta. */
+.dmf-media-block__preview .dmf-video-link {
+	pointer-events: none;
+}
+
+.dmf-media-block__preview .dmf-video-card {
+	cursor: default;
+}
+
+.dmf-media-block__loading {
+	margin: 0;
+	padding: 1rem 0;
+	color: #757575;
+	font-style: italic;
+}

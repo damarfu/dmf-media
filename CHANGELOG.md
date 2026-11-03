@@ -7,6 +7,22 @@ y este proyecto sigue Versionado Semántico (Semantic Versioning).
 
 ---
 
+## [0.3.0] - 2026-11-02
+
+### Añadido
+- Bloque de Gutenberg `dmf/media`, dinámico, con vista previa en el editor y los mismos datos que el shortcode.
+- Inspector con origen (canal de Ajustes, otro canal, playlist o vídeo concreto), límite y offset.
+- Soporte de alineación ancha y completa, ancla y clase personalizada.
+- Aviso en el editor cuando no hay ningún canal configurado en Ajustes.
+- Estilos del bloque dentro del lienzo del editor y vista previa no interactiva.
+
+### Mejorado
+- El shortcode y el bloque comparten `MediaResolver`, `Renderer` y el modal; el shortcode sigue disponible y no se deprecia.
+- El bloque puede colocarse dentro de contenedores y grids de GenerateBlocks y funciona con cualquier tema.
+- Sin dependencias de JavaScript ni proceso de build: el bloque usa las APIs globales de WordPress.
+
+---
+
 ## [0.2.4] - 2026-11-02
 
 ### Añadido

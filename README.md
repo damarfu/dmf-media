@@ -18,6 +18,7 @@ DMF Media is designed to integrate perfectly with GeneratePress and GenerateBloc
 - Autoplay on click.
 - ESC key and click outside to close.
 - Shortcode support.
+- Gutenberg block with live preview in the editor.
 - Minimal CSS, easy to customize.
 
 ---
@@ -151,6 +152,18 @@ When `offset` is used, DMF Media skips that number of the most recent videos ava
 
 YouTube currently provides a maximum of 15 videos through RSS, both for channels and public playlists. `offset` and `limit` can only work with those available videos.
 
+### Gutenberg block
+
+DMF Media also provides the **DMF Media** block. It uses the same renderer, cache, modal and settings as the shortcode, and both can coexist on the same site.
+
+1. Edit a page or post and add the **DMF Media** block.
+2. In the block sidebar, choose the source: the channel configured in **Settings → DMF Media**, another channel, a public playlist or a single video.
+3. Adjust the number of videos and the offset if needed. A limit of `0` uses the value from Settings.
+
+The block is dynamic: the video list is generated on every request, so new videos appear without editing the page. It supports wide and full alignment and can be placed inside GenerateBlocks containers and grids. The editor shows a live preview, but playback is tested on the frontend.
+
+The block does not replace the shortcode. Use the block for new content edited in Gutenberg and the shortcode for widgets, PHP templates or existing content.
+
 ---
 
 ## Philosophy
@@ -182,9 +195,15 @@ Your WordPress theme or block builder is responsible for the design.
 
 - ✅ Manual video by ID or YouTube URL
 - ✅ YouTube playlist support
+- ✅ `offset` attribute
 - ⏳ Support `@channel`
-- ⏳ Gutenberg block
 - ⏳ Vimeo support
+
+### v0.3
+
+- ✅ Gutenberg block with live preview
+- ⏳ Presentation attributes (aspect ratio, card styles)
+- ⏳ Native developer hooks
 
 ---
 

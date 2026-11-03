@@ -18,10 +18,18 @@ dmf-media/
 │   ├── js/
 │   └── images/
 │
+├── blocks/
+│   └── media/
+│       ├── block.json
+│       ├── index.js
+│       ├── editor.css
+│       └── render.php
+│
 ├── languages/
 │
 ├── src/
 │   ├── Admin/
+│   ├── Blocks/
 │   ├── Core/
 │   ├── Feed/
 │   ├── Models/
@@ -52,7 +60,9 @@ Core\Plugin
       │
       ├─────────────► Admin\Settings
       │
-      └─────────────► Shortcodes\MediaShortcode
+      ├─────────────► Shortcodes\MediaShortcode
+      │
+      └─────────────► Blocks\MediaBlock
                               │
                               ▼
                      Resolver\MediaResolver ─────► Support\YoutubeId
@@ -190,6 +200,31 @@ Responsabilidades:
 - leer atributos
 - delegar en `MediaResolver`
 - enviar el resultado al Renderer
+
+---
+
+## Blocks
+
+Bloque de Gutenberg `dmf/media`, dinámico: no guarda HTML en la base de datos,
+sino que se renderiza en cada petición con `MediaResolver` y `Renderer`.
+
+Archivos:
+
+- `blocks/media/block.json`: metadatos, atributos y soportes.
+- `blocks/media/index.js`: editor (inspector y vista previa). Sin build: usa
+  `wp.blocks`, `wp.element`, `wp.components`, `wp.blockEditor` y
+  `wp.serverSideRender` como globales.
+- `blocks/media/render.php`: punto de entrada del render en el frontend.
+- `src/Blocks/MediaBlock.php`: traduce atributos a argumentos del resolver y
+  envuelve la salida con `get_block_wrapper_attributes()`.
+- `blocks/media/editor.css`: ajustes solo del editor (vista previa no interactiva).
+
+Los metadatos y los atributos se localizan desde PHP (`dmfMediaBlock`), de forma
+que `block.json` es la única fuente de verdad y no hay duplicación entre PHP y JS.
+
+`registerBlock()` en `Core\Plugin` registra los handles de editor, llama a
+`register_block_type()` y marca `Modal::require()` a través de `Renderer`, igual
+que el shortcode. El shortcode y el bloque conviven y comparten todo el motor.
 
 ---
 
